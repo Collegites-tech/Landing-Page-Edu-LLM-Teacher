@@ -2,84 +2,77 @@
 
 import type React from "react"
 
-import { useState, useRef } from "react"
-import { Award, Star, Crown, GripVertical, Check, ArrowRight } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { useState } from "react"
+import { GripVertical, Award, Star, Crown, Users, Gift, Mic, Video, Trophy } from "lucide-react"
 
-interface Tier {
-  id: string
-  level: string
-  title: string
-  description: string
-  icon: React.ReactNode
-  color: string
-  benefits: string[]
-  badge: string
-  popular?: boolean
-}
+const initialTiers = [
+  {
+    id: "bronze",
+    icon: Award,
+    title: "Early Partner",
+    emoji: "🥉",
+    subtitle: "Contribute content + feedback",
+    description: "Start your journey as a contributor to India's first EDU-LLM",
+    benefits: [
+      "Contributor badge and certificate",
+      "Access to first tools and features",
+      "Featured name on contributor wall",
+      "Early access to new releases",
+    ],
+    color: "from-amber-50 to-orange-50",
+    borderColor: "border-amber-300",
+    iconColor: "from-amber-500 to-orange-500",
+  },
+  {
+    id: "silver",
+    icon: Star,
+    title: "Core Contributor",
+    emoji: "🥈",
+    subtitle: "Quality contributions + feedback rounds",
+    description: "Become a key voice in shaping our AI's teaching methodology",
+    benefits: [
+      "Spotlight story and shout-out posts",
+      "Invite to beta-test next tools",
+      "Ability to invite new members",
+      "Vote on new features and roadmap",
+      "Priority support and feedback",
+    ],
+    color: "from-gray-50 to-blue-50",
+    borderColor: "border-gray-300",
+    iconColor: "from-gray-500 to-blue-500",
+    popular: true,
+  },
+  {
+    id: "gold",
+    icon: Crown,
+    title: "Co-Creator",
+    emoji: "🥇",
+    subtitle: "Consistent contributions + community involvement",
+    description: "Lead the revolution in Indian educational AI technology",
+    benefits: [
+      '"Co-created EDU-LLM" digital badge',
+      "Personal profile featured on site",
+      "Speaking slot in webinars",
+      "Special access to team meetings",
+      "Early access to all new features",
+      "Direct input on product roadmap",
+    ],
+    color: "from-yellow-50 to-amber-50",
+    borderColor: "border-yellow-400",
+    iconColor: "from-yellow-500 to-amber-500",
+  },
+]
 
 export function ContributorTiersSection() {
-  const [tiers, setTiers] = useState<Tier[]>([
-    {
-      id: "bronze",
-      level: "🥉",
-      title: "Early Partner",
-      description: "Contribute content + feedback",
-      icon: <Award className="w-8 h-8" />,
-      color: "from-amber-400 to-orange-500",
-      benefits: [
-        "Digital badge and certificate",
-        "Access to first beta tools",
-        "Featured name on contributor wall",
-        "Monthly newsletter updates",
-      ],
-      badge: "Early Adopter",
-    },
-    {
-      id: "silver",
-      level: "🥈",
-      title: "Core Contributor",
-      description: "Quality contributions + more feedback rounds",
-      icon: <Star className="w-8 h-8" />,
-      color: "from-gray-400 to-gray-600",
-      benefits: [
-        "Spotlight story feature",
-        "Social media shout-out",
-        "Beta-test new tools first",
-        "Invite new members (5 slots)",
-        "Vote on new features",
-        "Quarterly video calls with team",
-      ],
-      badge: "Core Member",
-      popular: true,
-    },
-    {
-      id: "gold",
-      level: "🥇",
-      title: "Co-Creator",
-      description: "Consistent contributions + community involvement",
-      icon: <Crown className="w-8 h-8" />,
-      color: "from-yellow-400 to-yellow-600",
-      benefits: [
-        '"Co-created EDU-LLM" digital badge',
-        "Profile featured on website",
-        "Speaking slot in webinars",
-        "Team meeting access",
-        "Early access to everything",
-        "Revenue sharing opportunities",
-        "Mentorship program access",
-      ],
-      badge: "Co-Creator",
-    },
-  ])
-
+  const [tiers, setTiers] = useState(initialTiers)
   const [draggedTier, setDraggedTier] = useState<string | null>(null)
-  const dragCounter = useRef(0)
 
   const handleDragStart = (e: React.DragEvent, tierId: string) => {
     setDraggedTier(tierId)
     e.dataTransfer.effectAllowed = "move"
-    e.dataTransfer.setData("text/html", tierId)
   }
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -87,229 +80,118 @@ export function ContributorTiersSection() {
     e.dataTransfer.dropEffect = "move"
   }
 
-  const handleDragEnter = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent, targetTierId: string) => {
     e.preventDefault()
-    dragCounter.current++
-  }
 
-  const handleDragLeave = (e: React.DragEvent) => {
-    dragCounter.current--
-  }
+    if (!draggedTier || draggedTier === targetTierId) return
 
-  const handleDrop = (e: React.DragEvent, targetId: string) => {
-    e.preventDefault()
-    dragCounter.current = 0
+    const draggedIndex = tiers.findIndex((tier) => tier.id === draggedTier)
+    const targetIndex = tiers.findIndex((tier) => tier.id === targetTierId)
 
-    if (draggedTier && draggedTier !== targetId) {
-      const draggedIndex = tiers.findIndex((tier) => tier.id === draggedTier)
-      const targetIndex = tiers.findIndex((tier) => tier.id === targetId)
+    const newTiers = [...tiers]
+    const [draggedItem] = newTiers.splice(draggedIndex, 1)
+    newTiers.splice(targetIndex, 0, draggedItem)
 
-      const newTiers = [...tiers]
-      const [draggedItem] = newTiers.splice(draggedIndex, 1)
-      newTiers.splice(targetIndex, 0, draggedItem)
-
-      setTiers(newTiers)
-    }
+    setTiers(newTiers)
     setDraggedTier(null)
   }
 
-  const scrollToForm = () => {
-    const formSection = document.getElementById("contributor-form")
-    formSection?.scrollIntoView({ behavior: "smooth" })
-  }
-
   return (
-    <section id="tiers" className="py-20 bg-white">
+    <section id="tiers" className="py-20 bg-gradient-to-br from-blue-50 to-gray-100">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            What You Get <span className="text-orange-600">(Tiers)</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Drag to reorder and explore different contributor levels. Each tier offers unique benefits and recognition.
-          </p>
-          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-            <GripVertical className="w-4 h-4" />
-            <span>Interactive tiers • Drag to explore</span>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">What You Get as a Contributor</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore
+              different contribution levels.
+            </p>
+            <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>500+ Contributors</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Trophy className="h-4 w-4" />
+                <span>Recognition & Rewards</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Gift className="h-4 w-4" />
+                <span>Exclusive Benefits</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {tiers.map((tier, index) => (
-            <div
-              key={tier.id}
-              draggable
-              onDragStart={(e) => handleDragStart(e, tier.id)}
-              onDragOver={handleDragOver}
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-              onDrop={(e) => handleDrop(e, tier.id)}
-              className={`relative bg-white border-2 ${
-                tier.popular ? "border-orange-300 shadow-xl" : "border-gray-200"
-              } rounded-2xl p-8 hover:border-orange-300 transition-all duration-300 cursor-grab active:cursor-grabbing transform hover:scale-105 ${
-                draggedTier === tier.id ? "opacity-50 rotate-2 scale-105 shadow-2xl" : "shadow-lg hover:shadow-xl"
-              }`}
-            >
-              {/* Popular Badge */}
-              {tier.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    🔥 Most Popular
-                  </div>
-                </div>
-              )}
-
-              {/* Drag Handle */}
-              <div className="absolute top-4 right-4 flex items-center space-x-2">
-                <GripVertical className="w-5 h-5 text-gray-400" />
-                <span className="text-xs text-gray-400">Drag</span>
-              </div>
-
-              {/* Tier Badge */}
-              <div className="absolute -top-4 left-8">
-                <div
-                  className={`px-4 py-2 rounded-full text-white text-sm font-semibold bg-gradient-to-r ${tier.color} shadow-lg`}
-                >
-                  {tier.badge}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="text-center mb-6 mt-4">
-                <div className="text-4xl mb-2">{tier.level}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{tier.title}</h3>
-                <p className="text-gray-600">{tier.description}</p>
-              </div>
-
-              {/* Benefits */}
-              <div className="space-y-3 mb-8">
-                {tier.benefits.map((benefit, idx) => (
-                  <div key={idx} className="flex items-start space-x-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Action Button */}
-              <Button
-                onClick={scrollToForm}
-                className={`w-full bg-gradient-to-r ${tier.color} text-white hover:opacity-90 transition-all duration-300 group`}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {tiers.map((tier) => (
+              <Card
+                key={tier.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, tier.id)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, tier.id)}
+                className={`cursor-move hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 bg-gradient-to-br bg-slate-100 ${tier.color} ${tier.borderColor} border-2 group relative ${tier.popular ? "ring-2 ring-orange-400 ring-offset-2" : ""}`}
               >
-                Join as {tier.title}
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </div>
-          ))}
-        </div>
+                {tier.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-orange-600 text-white px-3 py-1">Most Popular</Badge>
+                  </div>
+                )}
 
-        {/* Contributor Form Section */}
-        <div id="contributor-form" className="mt-20 max-w-2xl mx-auto">
-          <div className="bg-gradient-to-r from-orange-50 via-white to-blue-50 rounded-2xl p-8 shadow-xl border border-orange-100">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">Ready to Contribute? 🚀</h3>
-              <p className="text-gray-600 mb-2">Join thousands of educators building India's first EDU-LLM</p>
-              <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">
-                <span>✅ Free to join</span>
-                <span>✅ Instant access</span>
-                <span>✅ Community support</span>
-              </div>
-            </div>
+                <CardHeader className="pb-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.iconColor} flex items-center justify-center shadow-lg`}
+                      >
+                        <tier.icon className="h-6 w-6 text-white" />
+                      </div>
+                      <span className="text-2xl">{tier.emoji}</span>
+                    </div>
+                    <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
+                  </div>
 
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Your full name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
+                  <CardTitle className="text-xl text-black mb-2">{tier.title}</CardTitle>
+                  <p className="text-sm font-medium text-orange-600 mb-3">{tier.subtitle}</p>
+                  <p className="text-sm text-gray-700">{tier.description}</p>
+                </CardHeader>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Teaching Experience</label>
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200">
-                    <option>Select your experience level</option>
-                    <option>0-2 years</option>
-                    <option>3-5 years</option>
-                    <option>6-10 years</option>
-                    <option>10+ years</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Language</label>
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200">
-                    <option>Select primary language</option>
-                    <option>Hindi</option>
-                    <option>English</option>
-                    <option>Tamil</option>
-                    <option>Telugu</option>
-                    <option>Bengali</option>
-                    <option>Marathi</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
+                <CardContent className="space-y-6">
+                  <div className="space-y-3">
+                    {tier.benefits.map((benefit, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-gray-700">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Subjects You Teach</label>
-                <textarea
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-                  rows={3}
-                  placeholder="Mathematics, Science, Hindi, Social Studies, etc."
-                ></textarea>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  How would you like to contribute?
-                </label>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    "Create lesson plans",
-                    "Design quizzes",
-                    "Provide feedback",
-                    "Test new features",
-                    "Translate content",
-                    "Community support",
-                  ].map((option) => (
-                    <label key={option} className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        required
-                        className="rounded border-gray-300 text-orange-500 focus:ring-orange-500"
-                      />
-                      <span className="text-sm text-gray-700">{option}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <Button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 text-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                🎉 Join the Revolution
-              </Button>
-
-              <p className="text-xs text-gray-500 text-center">
-                By joining, you agree to our Terms of Service and Privacy Policy. We respect your privacy and will never
-                spam you.
-              </p>
-            </form>
+                  <Button
+                    className={`w-full bg-blue-600 ${tier.popular ? "bg-orange-600 hover:bg-orange-700 text-white" : "bg-white border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"} transition-all duration-300`}
+                  >
+                    {tier.id === "bronze"
+                      ? "Start Contributing"
+                      : tier.id === "silver"
+                        ? "Join Core Team"
+                        : "Become Co-Creator"}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+
+          <div className="mt-16 text-center space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="flex items-center justify-center gap-3 rounded-lg p-4 bg-slate-200">
+                <Video className="h-6 w-6 text-orange-600" />
+                <span className="text-sm font-medium text-gray-700">Monthly Webinars</span>
+              </div>
+              <div className="flex items-center justify-center gap-3 rounded-lg p-4 bg-slate-200">
+                <Mic className="h-6 w-6 text-orange-600" />
+                <span className="text-sm font-medium text-gray-700">Speaking Opportunities</span>
+              </div>
+              <div className="flex items-center justify-center gap-3 rounded-lg p-4 bg-slate-200">
+                <Users className="h-6 w-6 text-orange-600" />
+                <span className="text-sm font-medium text-gray-700">Community Access</span>
+              </div>
+            </div>

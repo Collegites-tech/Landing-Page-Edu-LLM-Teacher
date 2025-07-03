@@ -1,57 +1,54 @@
 "use client"
 
 import type React from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { GripVertical, Users, Brain, Target, Globe } from "lucide-react"
 
-import { useState, useRef } from "react"
-import { Target, Lightbulb, Users, Globe, BookOpen, Award, GripVertical } from "lucide-react"
-
-interface ContentCard {
-  id: string
-  title: string
-  content: string
-  icon: React.ReactNode
-  color: string
-  stats: string
-}
+const initialCards = [
+  {
+    id: "why",
+    icon: Target,
+    title: "Why This Matters",
+    subtitle: "India-first, teacher-led AI revolution",
+    content:
+      "Global LLMs don't reflect Indian pedagogy, language, or syllabus. Our teacher-built model understands the unique needs of Bharat's classrooms, cultural context, and diverse learning styles.",
+    color: "from-blue-50 to-gray-50",
+    borderColor: "border-blue-200",
+    iconColor: "from-blue-600 to-blue-800",
+  },
+  {
+    id: "how",
+    icon: Brain,
+    title: "How You'll Help Shape",
+    subtitle: "How the model thinks and explains",
+    content:
+      "Your content trains the LLM to think and teach like an Indian educator. Every lesson or quiz you contribute refines how the AI explains concepts, answers doubts, and supports students in their native language.",
+    color: "from-gray-50 to-blue-50",
+    borderColor: "border-gray-200",
+    iconColor: "from-blue-600 to-blue-800",
+  },
+  {
+    id: "who",
+    icon: Users,
+    title: "Who This is For",
+    subtitle: "Teachers, tutors, creators, and edtech leaders",
+    content:
+      "Not just ChatGPT - this is a real classroom assistant that understands Indian curriculum, speaks regional languages, and respects our educational values and teaching methodologies.",
+    color: "from-blue-50 to-gray-50",
+    borderColor: "border-blue-200",
+    iconColor: "from-blue-600 to-blue-800",
+  },
+]
 
 export function WhyHowWhoSection() {
-  const [cards, setCards] = useState<ContentCard[]>([
-    {
-      id: "why",
-      title: "Why This Matters",
-      content:
-        "India-first, teacher-led AI revolution. Global LLMs don't reflect Indian pedagogy, language, or syllabus. This teacher-built model matters for Bharat's educational future.",
-      icon: <Target className="w-8 h-8" />,
-      color: "from-orange-500 to-red-500",
-      stats: "22+ Languages Supported",
-    },
-    {
-      id: "what",
-      title: "What You'll Help Shape",
-      content:
-        "Your content trains the LLM to think and teach like an Indian educator. Every lesson or quiz you contribute refines how the AI explains concepts, answers doubts, and supports students.",
-      icon: <Lightbulb className="w-8 h-8" />,
-      color: "from-blue-500 to-purple-500",
-      stats: "10K+ Lessons Created",
-    },
-    {
-      id: "who",
-      title: "Who This is For",
-      content:
-        "Teachers, tutors, creators, and edtech leaders who want to build a real classroom assistant in Indian languages—not just another ChatGPT clone.",
-      icon: <Users className="w-8 h-8" />,
-      color: "from-green-500 to-teal-500",
-      stats: "1000+ Educators Joined",
-    },
-  ])
-
+  const [cards, setCards] = useState(initialCards)
   const [draggedCard, setDraggedCard] = useState<string | null>(null)
-  const dragCounter = useRef(0)
 
   const handleDragStart = (e: React.DragEvent, cardId: string) => {
     setDraggedCard(cardId)
     e.dataTransfer.effectAllowed = "move"
-    e.dataTransfer.setData("text/html", cardId)
   }
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -59,106 +56,74 @@ export function WhyHowWhoSection() {
     e.dataTransfer.dropEffect = "move"
   }
 
-  const handleDragEnter = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent, targetCardId: string) => {
     e.preventDefault()
-    dragCounter.current++
-  }
 
-  const handleDragLeave = (e: React.DragEvent) => {
-    dragCounter.current--
-  }
+    if (!draggedCard || draggedCard === targetCardId) return
 
-  const handleDrop = (e: React.DragEvent, targetId: string) => {
-    e.preventDefault()
-    dragCounter.current = 0
+    const draggedIndex = cards.findIndex((card) => card.id === draggedCard)
+    const targetIndex = cards.findIndex((card) => card.id === targetCardId)
 
-    if (draggedCard && draggedCard !== targetId) {
-      const draggedIndex = cards.findIndex((card) => card.id === draggedCard)
-      const targetIndex = cards.findIndex((card) => card.id === targetId)
+    const newCards = [...cards]
+    const [draggedItem] = newCards.splice(draggedIndex, 1)
+    newCards.splice(targetIndex, 0, draggedItem)
 
-      const newCards = [...cards]
-      const [draggedItem] = newCards.splice(draggedIndex, 1)
-      newCards.splice(targetIndex, 0, draggedItem)
-
-      setCards(newCards)
-    }
+    setCards(newCards)
     setDraggedCard(null)
   }
 
   return (
-    <section id="why" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50/30">
+    <section id="why" className="py-20 bg-gradient-to-br from-blue-50 to-gray-100">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Why + How + Who</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Drag and rearrange these cards to explore different aspects of our mission
-          </p>
-          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-            <GripVertical className="w-4 h-4" />
-            <span>Drag to reorder • Interactive experience</span>
+        <div className="max-w-6xl mx-auto mx-1">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">Building India's Educational Future</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Drag and rearrange the cards below to explore how you can be part of this revolutionary journey
+            </p>
+            <p className="text-3xl md:text-4xl font-bold text-gray-500 mt-4">WHY + HOW + WHAT</p>
           </div>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {cards.map((card, index) => (
-            <div
-              key={card.id}
-              draggable
-              onDragStart={(e) => handleDragStart(e, card.id)}
-              onDragOver={handleDragOver}
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-              onDrop={(e) => handleDrop(e, card.id)}
-              className={`bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 cursor-grab active:cursor-grabbing transform hover:scale-105 ${
-                draggedCard === card.id ? "opacity-50 rotate-3 scale-105" : ""
-              }`}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <div className={`p-3 rounded-xl bg-gradient-to-r ${card.color} text-white shadow-lg`}>{card.icon}</div>
-                <div className="flex items-center space-x-2 text-gray-400">
-                  <GripVertical className="w-5 h-5" />
-                  <span className="text-xs">Drag me</span>
-                </div>
-              </div>
-
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{card.title}</h3>
-              <p className="text-gray-600 leading-relaxed mb-6">{card.content}</p>
-
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <div className={`text-sm font-semibold bg-gradient-to-r ${card.color} bg-clip-text text-transparent`}>
-                  {card.stats}
-                </div>
-                <div className="flex space-x-1">
-                  {[...Array(5)].map((_, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-0">
+            {cards.map((card) => (
+              <Card
+                key={card.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, card.id)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, card.id)}
+                className={`cursor-move hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br border-amber-400 ${card.color} ${card.borderColor} group border`}
+              >
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between mb-4">
                     <div
-                      key={i}
-                      className={`w-2 h-2 rounded-full bg-gradient-to-r ${card.color} opacity-${i < 4 ? "100" : "30"}`}
-                    ></div>
-                  ))}
-                </div>
-              </div>
+                      className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.iconColor} flex items-center justify-center shadow-lg`}
+                    >
+                      <card.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
+                  </div>
+                  <CardTitle className="text-xl text-black">{card.title}</CardTitle>
+                  <p className="text-sm font-medium text-orange-600">{card.subtitle}</p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 leading-relaxed mb-6">{card.content}</p>
+                  <Button
+                    variant="outline"
+                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 bg-transparent"
+                  >
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-lg border border-blue-200">
+              <Globe className="h-5 w-5 text-blue-600" />
+              <span className="text-sm font-medium text-gray-700">Supporting 12+ Indian languages and growing</span>
             </div>
-          ))}
-        </div>
-
-        {/* Additional Info Section */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="text-center p-6 bg-white rounded-xl shadow-md">
-            <Globe className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-            <h4 className="font-semibold text-gray-900 mb-2">Multi-Language Support</h4>
-            <p className="text-sm text-gray-600">Hindi, Tamil, Telugu, Bengali, Marathi, and 17+ more languages</p>
-          </div>
-
-          <div className="text-center p-6 bg-white rounded-xl shadow-md">
-            <BookOpen className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-            <h4 className="font-semibold text-gray-900 mb-2">Curriculum Aligned</h4>
-            <p className="text-sm text-gray-600">NCERT, CBSE, ICSE, and state board syllabus integration</p>
-          </div>
-
-          <div className="text-center p-6 bg-white rounded-xl shadow-md">
-            <Award className="w-12 h-12 text-green-500 mx-auto mb-4" />
-            <h4 className="font-semibold text-gray-900 mb-2">Teacher Recognition</h4>
-            <p className="text-sm text-gray-600">Certificates, badges, and community recognition for contributors</p>
           </div>
         </div>
       </div>

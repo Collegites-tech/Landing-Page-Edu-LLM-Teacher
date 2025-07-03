@@ -1,99 +1,68 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { GraduationCap, Menu, X } from "lucide-react"
+import { useState } from "react"
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    element?.scrollIntoView({ behavior: "smooth" })
-    setIsMobileMenuOpen(false)
-  }
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/95 backdrop-blur-sm shadow-lg border-b border-gray-100" : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold text-gray-900 cursor-pointer" onClick={() => scrollToSection("hero")}>
-            EDU-LLM Teacher
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-blue-100 supports-[backdrop-filter]:bg-white/90">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 border border-amber-300">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <GraduationCap className="h-5 w-5 text-white" />
           </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => scrollToSection("why")}
-              className="text-gray-700 hover:text-orange-600 transition-colors font-medium"
-            >
-              Why This Matters
-            </button>
-            <button
-              onClick={() => scrollToSection("tiers")}
-              className="text-gray-700 hover:text-orange-600 transition-colors font-medium"
-            >
-              Contributor Tiers
-            </button>
-            <button
-              onClick={() => scrollToSection("contributor-form")}
-              className="text-gray-700 hover:text-orange-600 transition-colors font-medium"
-            >
-              Join Now
-            </button>
-            <Button
-              onClick={() => scrollToSection("contributor-form")}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-full"
-            >
-              Get Started
-            </Button>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button className="md:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex flex-col">
+            <span className="text-lg font-bold text-gray-900"> EDU-LLM Teacher </span>
+            <span className="text-xs text-gray-500">Teacher-led AI</span>
+          </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-4 pt-4">
-              <button
-                onClick={() => scrollToSection("why")}
-                className="text-left text-gray-700 hover:text-orange-600 transition-colors font-medium"
-              >
-                Why This Matters
-              </button>
-              <button
-                onClick={() => scrollToSection("tiers")}
-                className="text-left text-gray-700 hover:text-orange-600 transition-colors font-medium"
-              >
-                Contributor Tiers
-              </button>
-              <button
-                onClick={() => scrollToSection("contributor-form")}
-                className="text-left text-gray-700 hover:text-orange-600 transition-colors font-medium"
-              >
-                Join Now
-              </button>
-            </nav>
-          </div>
-        )}
+        <nav className="hidden space-x-8 md:flex">
+          {/* This nav is now empty for desktop as per the request to move links */}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <Link
+            href="#about"
+            className="hidden md:block text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            About
+          </Link>
+          <Link
+            href="#community"
+            className="hidden md:block text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            Community
+          </Link>
+          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden border-t bg-white">
+          <nav className="container mx-auto px-4 py-4 space-y-4">
+            <Link href="#why" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
+              Why This Matters
+            </Link>
+            <Link href="#how" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
+              How It Works
+            </Link>
+            <Link href="#tiers" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
+              Contributor Tiers
+            </Link>
+            <Link href="/login" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
+              Sign in
+            </Link>
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
