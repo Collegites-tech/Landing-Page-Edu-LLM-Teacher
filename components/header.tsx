@@ -10,19 +10,19 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-blue-100 supports-[backdrop-filter]:bg-white/90">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 border border-amber-300">
+      <div className="w-full flex h-16 items-center justify-between px-6 border border-amber-300">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <GraduationCap className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-gray-900"> EDU-LLM Teacher </span>
+            <span className="text-lg font-bold text-gray-900">EDU-LLM Teacher</span>
             <span className="text-xs text-gray-500">Teacher-led AI</span>
           </div>
         </div>
 
         <nav className="hidden space-x-8 md:flex">
-          {/* This nav is now empty for desktop as per the request to move links */}
+          {/* Desktop nav items */}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -38,6 +38,12 @@ export function Header() {
           >
             Community
           </Link>
+          <Link
+            href="#about"
+            className="hidden md:block text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            GuideLines
+          </Link>
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -46,8 +52,8 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-t bg-white">
-          <nav className="container mx-auto px-4 py-4 space-y-4">
+        <div className="md:hidden border-t bg-white w-full">
+          <nav className="w-full px-6 py-4 space-y-4">
             <Link href="#why" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
               Why This Matters
             </Link>

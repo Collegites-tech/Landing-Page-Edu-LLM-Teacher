@@ -1,12 +1,21 @@
 "use client"
 
 import type React from "react"
+import { useState, useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import {
+  GripVertical,
+  Award,
+  Star,
+  Crown,
+  Users,
+  Gift,
+  Trophy,
+} from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
-import { GripVertical, Award, Star, Crown, Users, Gift, Mic, Video, Trophy } from "lucide-react"
 
 const initialTiers = [
   {
@@ -43,7 +52,7 @@ const initialTiers = [
     color: "from-gray-50 to-blue-50",
     borderColor: "border-gray-300",
     iconColor: "from-gray-500 to-blue-500",
-    popular: true,
+    popular: false,
   },
   {
     id: "gold",
@@ -69,6 +78,8 @@ const initialTiers = [
 export function ContributorTiersSection() {
   const [tiers, setTiers] = useState(initialTiers)
   const [draggedTier, setDraggedTier] = useState<string | null>(null)
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true })
 
   const handleDragStart = (e: React.DragEvent, tierId: string) => {
     setDraggedTier(tierId)
@@ -82,7 +93,6 @@ export function ContributorTiersSection() {
 
   const handleDrop = (e: React.DragEvent, targetTierId: string) => {
     e.preventDefault()
-
     if (!draggedTier || draggedTier === targetTierId) return
 
     const draggedIndex = tiers.findIndex((tier) => tier.id === draggedTier)
@@ -97,16 +107,22 @@ export function ContributorTiersSection() {
   }
 
   return (
-    <section id="tiers" className="py-20 bg-gradient-to-br from-blue-50 to-gray-100">
+    <section
+      id="tiers"
+      ref={sectionRef}
+      className="py-20 bg-gradient-to-b from-blue-200 to-blue-150"
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">What You Get as a Contributor</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+              What You Get as a Contributor
+            </h2>
+            <p className="text-lg text-black-100 max-w-2xl mx-auto mb-8">
               Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore
               different contribution levels.
             </p>
-            <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center justify-center gap-4 text-sm text-black-100">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
                 <span>500+ Contributors</span>
@@ -122,76 +138,74 @@ export function ContributorTiersSection() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {tiers.map((tier) => (
-              <Card
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+            {tiers.map((tier, index) => (
+              <motion.div
                 key={tier.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, tier.id)}
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, tier.id)}
-                className={`cursor-move hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 bg-gradient-to-br bg-slate-100 ${tier.color} ${tier.borderColor} border-2 group relative ${tier.popular ? "ring-2 ring-orange-400 ring-offset-2" : ""}`}
+                initial={{ x: -100, opacity: 0 }}
+                animate={isInView ? { x: 0, opacity: 1 } : {}}
+                transition={{ duration: 1, delay: index * 0.2 }}
               >
-                {tier.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-orange-600 text-white px-3 py-1">Most Popular</Badge>
-                  </div>
-                )}
-
-                <CardHeader className="pb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.iconColor} flex items-center justify-center shadow-lg`}
-                      >
-                        <tier.icon className="h-6 w-6 text-white" />
-                      </div>
-                      <span className="text-2xl">{tier.emoji}</span>
+                <Card
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, tier.id)}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, tier.id)}
+                  className={`min-h-[480px] w-full cursor-move hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br ${tier.color} ${tier.borderColor} border-2 rounded-xl group relative ${
+                    tier.popular ? "ring-2 ring-orange-400 ring-offset-2" : ""
+                  }`}
+                >
+                  {tier.popular && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                      <Badge className="bg-orange-600 text-white px-3 py-1">Most Popular</Badge>
                     </div>
-                    <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
-                  </div>
+                  )}
 
-                  <CardTitle className="text-xl text-black mb-2">{tier.title}</CardTitle>
-                  <p className="text-sm font-medium text-orange-600 mb-3">{tier.subtitle}</p>
-                  <p className="text-sm text-gray-700">{tier.description}</p>
-                </CardHeader>
-
-                <CardContent className="space-y-6">
-                  <div className="space-y-3">
-                    {tier.benefits.map((benefit, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
-                        <span className="text-sm text-gray-700">{benefit}</span>
+                  <CardHeader className="pb-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.iconColor} flex items-center justify-center shadow-lg`}
+                        >
+                          <tier.icon className="h-6 w-6 text-white" />
+                        </div>
+                        <span className="text-2xl">{tier.emoji}</span>
                       </div>
-                    ))}
-                  </div>
+                      <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
+                    </div>
 
-                  <Button
-                    className={`w-full bg-blue-600 ${tier.popular ? "bg-orange-600 hover:bg-orange-700 text-white" : "bg-white border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"} transition-all duration-300`}
-                  >
-                    {tier.id === "bronze"
-                      ? "Start Contributing"
-                      : tier.id === "silver"
-                        ? "Join Core Team"
-                        : "Become Co-Creator"}
-                  </Button>
-                </CardContent>
-              </Card>
+                    <CardTitle className="text-xl text-black mb-2">{tier.title}</CardTitle>
+                    <p className="text-sm font-medium text-orange-600 mb-3">{tier.subtitle}</p>
+                    <p className="text-sm text-gray-800">{tier.description}</p>
+                  </CardHeader>
+
+                  <CardContent className="space-y-6">
+                    <div className="space-y-3">
+                      {tier.benefits.map((benefit, index) => (
+                        <div key={index} className="flex items-start gap-3">
+                          <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
+                          <span className="text-sm text-gray-700">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
 
           <div className="mt-16 text-center space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="flex items-center justify-center gap-3 rounded-lg p-4 bg-slate-200">
-                <Video className="h-6 w-6 text-orange-600" />
-                <span className="text-sm font-medium text-gray-700">Monthly Webinars</span>
-              </div>
-              <div className="flex items-center justify-center gap-3 rounded-lg p-4 bg-slate-200">
-                <Mic className="h-6 w-6 text-orange-600" />
-                <span className="text-sm font-medium text-gray-700">Speaking Opportunities</span>
-              </div>
-              <div className="flex items-center justify-center gap-3 rounded-lg p-4 bg-slate-200">
-                <Users className="h-6 w-6 text-orange-600" />
-                <span className="text-sm font-medium text-gray-700">Community Access</span>
-              </div>
+            <div className="max-ms-m mx-auto">
+              <Button
+                className="w-half h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-md"
+                onClick={() => window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")}
+              >
+                Become a Contributor
+              </Button>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

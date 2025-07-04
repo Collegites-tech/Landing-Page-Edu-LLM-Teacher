@@ -1,9 +1,19 @@
 "use client"
 
-import { Users, Landmark, LineChart, MessageCircle } from "lucide-react"
+import { useEffect, useState } from "react"
+import {
+  Users,
+  Landmark,
+  LineChart,
+  MessageCircle,
+  ShieldCheck,
+  Award,
+  Calendar,
+  TrendingUp
+} from "lucide-react"
 
 export default function CommunitySection() {
-  const stats = [
+  const initialStats = [
     {
       icon: Users,
       value: "500+",
@@ -30,21 +40,52 @@ export default function CommunitySection() {
     }
   ]
 
-  return (
-    <section className="py-20 bg-white" id="community">
-      <div className="container mx-auto px-4 text-center">
+  const guidelines = [
+    {
+      icon: ShieldCheck,
+      title: "Invite-Only Community",
+      description:
+        "No spam, no self-promotion, real name policy for authentic connections"
+    },
+    {
+      icon: Award,
+      title: "Peer Recognition",
+      description: "Weekly spotlight features and top contributor leaderboards"
+    },
+    {
+      icon: Calendar,
+      title: "Regular Events",
+      description:
+        "Monthly Zoom webinars with updates and contributor recognitions"
+    },
+    {
+      icon: TrendingUp,
+      title: "Transparency",
+      description:
+        "See how your content trains the LLM via feedback dashboard"
+    }
+  ]
 
-        {/* 🔵 Button */}
-        <div className="mb-6">
-          <a
-            href="https://forms.gle/jSydHxxUx7TaAaYAA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition-none hover:bg-blue-600"
-          >
-            Become a Contributor
-          </a>
-        </div>
+  const [stats, setStats] = useState(initialStats)
+
+  // Swapping logic every 6 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStats((prev) => {
+        const newStats = [...prev]
+        // Swap in pairs
+        ;[newStats[0], newStats[1]] = [newStats[1], newStats[0]]
+        ;[newStats[2], newStats[3]] = [newStats[3], newStats[2]]
+        return newStats
+      })
+    }, 6000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-100">
+      <div className="container mx-auto px-4 text-center">
 
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -55,17 +96,43 @@ export default function CommunitySection() {
         </p>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20 transition-all duration-700 ease-in-out">
           {stats.map((item, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:shadow-md transition"
+              className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:shadow-md transition-all duration-700 ease-in-out transform"
             >
-              <div className={`flex justify-center mb-4`}>
-                <item.icon className={`w-8 h-8 ${item.color}`} />
+              <div className="flex justify-center mb-4">
+                <div className="p-3 border-2 border-amber-400 rounded-full">
+                  <item.icon className={`w-8 h-8 ${item.color}`} />
+                </div>
               </div>
               <div className="text-2xl font-bold text-gray-800">{item.value}</div>
               <div className="text-sm text-gray-600">{item.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Community Guidelines Section */}
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Community Guidelines
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+          {guidelines.map((item, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-sm p-6 text-center border border-gray-200 hover:shadow-md transition-all duration-500"
+            >
+              <div className="flex justify-center mb-4">
+                <div className="bg-blue-100 p-4 rounded-full">
+                  <item.icon className="w-6 h-6 text-blue-600" />
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {item.title}
+              </h3>
+              <p className="text-sm text-gray-600">{item.description}</p>
             </div>
           ))}
         </div>
