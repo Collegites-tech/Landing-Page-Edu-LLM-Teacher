@@ -2,7 +2,6 @@
 
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
-//import { DemoSection } from "@/components/demo-section"
 import { ContributorTiersSection } from "@/components/contributor-tiers-section"
 import { WhyHowWhoSection } from "@/components/why-how-who-section"
 //import PointSystem from "@/components/point-system"
@@ -18,7 +17,6 @@ export default function Home() {
         <WhyHowWhoSection />
          <CommunitySection />
         <ContributorTiersSection />
-       
       </main>
       <Footer />
     </div>

@@ -9,8 +9,30 @@ import {
   ShieldCheck,
   Award,
   Calendar,
-  TrendingUp
+  TrendingUp,
+  Star
 } from "lucide-react"
+
+const testimonials = [
+  {
+    name: "Mark Williams",
+    role: "Corporate Trainer",
+    quote:
+      "Our training department has seen a 300% increase in completion rates since switching to videos created with Collegetes AI. The interactive elements and professional quality make all the difference. We've saved over 20 hours per week in video production time."
+  },
+  {
+    name: "Aarav Mehta",
+    role: "Math Teacher",
+    quote:
+      "Creating quizzes in multiple Indian languages has never been easier. This tool saves me hours every week!"
+  },
+  {
+    name: "Sneha Rao",
+    role: "Curriculum Designer",
+    quote:
+      "Our team loves how seamless the content submission process is. The community is also incredibly active and helpful."
+  }
+]
 
 export default function CommunitySection() {
   const initialStats = [
@@ -67,27 +89,33 @@ export default function CommunitySection() {
   ]
 
   const [stats, setStats] = useState(initialStats)
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
-  // Swapping logic every 6 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
+    const statInterval = setInterval(() => {
       setStats((prev) => {
         const newStats = [...prev]
-        // Swap in pairs
         ;[newStats[0], newStats[1]] = [newStats[1], newStats[0]]
         ;[newStats[2], newStats[3]] = [newStats[3], newStats[2]]
         return newStats
       })
     }, 6000)
 
-    return () => clearInterval(interval)
+    const testimonialInterval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+    }, 6000)
+
+    return () => {
+      clearInterval(statInterval)
+      clearInterval(testimonialInterval)
+    }
   }, [])
 
   return (
     <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-100">
       <div className="container mx-auto px-4 text-center">
 
-        {/* Heading */}
+        {/* Section Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Join Our Growing Community
         </h2>
@@ -95,7 +123,7 @@ export default function CommunitySection() {
           Educators from across India are already shaping the future of AI-powered education
         </p>
 
-        {/* Stats Grid */}
+        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20 transition-all duration-700 ease-in-out">
           {stats.map((item, index) => (
             <div
@@ -113,23 +141,50 @@ export default function CommunitySection() {
           ))}
         </div>
 
-        {/* Community Guidelines Section */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        {/* Testimonial Carousel */}
+        <div className="relative mx-auto max-w-4xl w-full mb-20">
+          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-amber-200 transition-all duration-700 ease-in-out">
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="flex space-x-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-500" />
+                ))}
+              </div>
+              <p className="italic text-gray-700 text-lg max-w-3xl transition-opacity duration-500 ease-in-out">
+                "{testimonials[currentTestimonial].quote}"
+              </p>
+              <div className="text-center mt-4">
+                <p className="font-semibold text-gray-900">
+                  {testimonials[currentTestimonial].name}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {testimonials[currentTestimonial].role}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Guidelines Heading */}
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
           Community Guidelines
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+        <div className="h-8" />
+
+        {/* Guidelines Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {guidelines.map((item, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl shadow-sm p-6 text-center border border-gray-200 hover:shadow-md transition-all duration-500"
+              className="bg-white rounded-xl shadow-sm p-4 text-center border border-gray-200 hover:shadow-md transition-all duration-500"
             >
-              <div className="flex justify-center mb-4">
-                <div className="bg-blue-100 p-4 rounded-full">
-                  <item.icon className="w-6 h-6 text-blue-600" />
+              <div className="flex justify-center mb-3">
+                <div className="bg-blue-100 p-2.5 rounded-full">
+                  <item.icon className="w-5 h-5 text-blue-600" />
                 </div>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-1">
                 {item.title}
               </h3>
               <p className="text-sm text-gray-600">{item.description}</p>
