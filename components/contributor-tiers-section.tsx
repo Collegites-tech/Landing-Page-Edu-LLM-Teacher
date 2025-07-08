@@ -110,7 +110,7 @@ export function ContributorTiersSection() {
     <section
       id="tiers"
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-blue-200 to-blue-150"
+      className="py-20 bg-gradient-to-b from-blue-200 to-[#eff6ff]"
     >
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
@@ -119,8 +119,7 @@ export function ContributorTiersSection() {
               What You Get as a Contributor
             </h2>
             <p className="text-lg text-black-100 max-w-2xl mx-auto mb-8">
-              Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore
-              different contribution levels.
+              Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore different contribution levels.
             </p>
             <div className="flex items-center justify-center gap-4 text-sm text-black-100">
               <div className="flex items-center gap-2">
@@ -145,13 +144,14 @@ export function ContributorTiersSection() {
                 initial={{ x: -100, opacity: 0 }}
                 animate={isInView ? { x: 0, opacity: 1 } : {}}
                 transition={{ duration: 1, delay: index * 0.2 }}
+                className="h-full"
               >
                 <Card
                   draggable
                   onDragStart={(e) => handleDragStart(e, tier.id)}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, tier.id)}
-                  className={`min-h-[480px] w-full cursor-move hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br ${tier.color} ${tier.borderColor} border-2 rounded-xl group relative ${
+                  className={`flex flex-col justify-between h-full cursor-pointer hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br ${tier.color} ${tier.borderColor} border-2 rounded-xl group relative ${
                     tier.popular ? "ring-2 ring-orange-400 ring-offset-2" : ""
                   }`}
                 >
@@ -179,7 +179,7 @@ export function ContributorTiersSection() {
                     <p className="text-sm text-gray-800">{tier.description}</p>
                   </CardHeader>
 
-                  <CardContent className="space-y-6">
+                  <CardContent className="space-y-6 flex-1">
                     <div className="space-y-3">
                       {tier.benefits.map((benefit, index) => (
                         <div key={index} className="flex items-start gap-3">
@@ -197,8 +197,16 @@ export function ContributorTiersSection() {
           <div className="mt-16 text-center space-y-6">
             <div className="max-ms-m mx-auto">
               <Button
-                className="w-half h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-md"
+                className="w-half h-12 bg-blue-600 text-white rounded-full transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-md relative overflow-hidden group"
                 onClick={() => window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")}
+                onMouseEnter={(e) => {
+                  const button = e.currentTarget
+                  button.innerText = "Join Us"
+                }}
+                onMouseLeave={(e) => {
+                  const button = e.currentTarget
+                  button.innerText = "Become a Contributor"
+                }}
               >
                 Become a Contributor
               </Button>

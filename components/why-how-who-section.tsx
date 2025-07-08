@@ -62,7 +62,6 @@ export function WhyHowWhoSection() {
 
   const handleDrop = (e: React.DragEvent, targetCardId: string) => {
     e.preventDefault()
-
     if (!draggedCard || draggedCard === targetCardId) return
 
     const draggedIndex = cards.findIndex((card) => card.id === draggedCard)
@@ -94,20 +93,21 @@ export function WhyHowWhoSection() {
             <p className="text-3xl md:text-4xl font-bold text-gray-500 mt-4">WHY + HOW + WHAT</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {cards.map((card, index) => (
               <motion.div
                 key={card.id}
                 initial={{ x: -80, opacity: 0 }}
                 animate={isInView ? { x: 0, opacity: 1 } : {}}
                 transition={{ duration: 1, delay: index * 0.2 }}
+                className="h-full"
               >
                 <Card
                   draggable
                   onDragStart={(e) => handleDragStart(e, card.id)}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, card.id)}
-                  className={`cursor-pointer transition-all duration-700 ease-out transform hover:shadow-xl hover:-translate-y-2 bg-gradient-to-br border-amber-400 ${card.color} ${card.borderColor} group border`}
+                  className={`flex flex-col justify-between h-full cursor-pointer transition-all duration-700 ease-out transform hover:shadow-xl hover:-translate-y-2 bg-gradient-to-br ${card.color} ${card.borderColor} group border`}
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-center justify-between mb-4">
@@ -121,11 +121,12 @@ export function WhyHowWhoSection() {
                     <CardTitle className="text-xl text-black">{card.title}</CardTitle>
                     <p className="text-sm font-medium text-orange-600">{card.subtitle}</p>
                   </CardHeader>
-                  <CardContent>
+
+                  <CardContent className="flex flex-col justify-between flex-1">
                     <p className="text-gray-700 leading-relaxed mb-6">{card.content}</p>
                     <Button
                       variant="outline"
-                      className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 bg-transparent"
+                      className="mt-auto w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 bg-transparent"
                     >
                       Learn More
                     </Button>

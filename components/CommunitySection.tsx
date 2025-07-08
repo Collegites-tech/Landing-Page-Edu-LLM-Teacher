@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   Users,
   Landmark,
@@ -90,7 +90,22 @@ export default function CommunitySection() {
 
   const [stats, setStats] = useState(initialStats)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Auto-rotate testimonials unless paused
+  useEffect(() => {
+    if (!isPaused) {
+      intervalRef.current = setInterval(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+      }, 6000)
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [isPaused])
+
+  // Shuffle stats
   useEffect(() => {
     const statInterval = setInterval(() => {
       setStats((prev) => {
@@ -100,19 +115,15 @@ export default function CommunitySection() {
         return newStats
       })
     }, 6000)
-
-    const testimonialInterval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
-    }, 6000)
-
-    return () => {
-      clearInterval(statInterval)
-      clearInterval(testimonialInterval)
-    }
+    return () => clearInterval(statInterval)
   }, [])
 
+  const handleMouseEnter = () => setIsPaused(true)
+  const handleMouseLeave = () => setIsPaused(false)
+  const handleClick = () => setIsPaused(true)
+
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-100">
+    <section className="py-20 bg-gradient-to-br from-blue-200 to-blue-150">
       <div className="container mx-auto px-4 text-center">
 
         {/* Section Heading */}
@@ -143,7 +154,12 @@ export default function CommunitySection() {
 
         {/* Testimonial Carousel */}
         <div className="relative mx-auto max-w-4xl w-full mb-20">
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-amber-200 transition-all duration-700 ease-in-out">
+          <div
+            className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-amber-400 transition-all duration-700 ease-in-out"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+          >
             <div className="flex flex-col items-center justify-center space-y-4">
               <div className="flex space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -162,6 +178,24 @@ export default function CommunitySection() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Dots Navigation */}
+          <div className="flex justify-center mt-4 space-x-3">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setCurrentTestimonial(i)
+                  setIsPaused(true)
+                }}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  currentTestimonial === i
+                    ? "bg-orange-500 scale-125"
+                    : "bg-orange-200 hover:bg-amber-400"
+                }`}
+              />
+            ))}
           </div>
         </div>
 

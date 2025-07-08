@@ -21,50 +21,37 @@ export function Header() {
           </div>
         </div>
 
-        <nav className="hidden space-x-8 md:flex">
-          {/* Desktop nav items */}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <Link
-            href="#about"
-            className="hidden md:block text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
-          >
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex space-x-8">
+          <Link href="#about" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
             About
           </Link>
-          <Link
-            href="#community"
-            className="hidden md:block text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
-          >
+          <Link href="#community" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
             Community
           </Link>
-          <Link
-            href="#about"
-            className="hidden md:block text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
-          >
-            GuideLines
+          <Link href="#guidelines" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
+            Guidelines
           </Link>
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
-        </div>
+        </nav>
+
+        {/* Mobile Menu Toggle */}
+        <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </Button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Content */}
       {isMenuOpen && (
         <div className="md:hidden border-t bg-white w-full">
           <nav className="w-full px-6 py-4 space-y-4">
-            <Link href="#why" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
-              Why This Matters
+            <Link href="#about" className="block text-sm font-medium text-gray-600 hover:text-blue-600">
+              About
             </Link>
-            <Link href="#how" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
-              How It Works
+            <Link href="#community" className="block text-sm font-medium text-gray-600 hover:text-blue-600">
+              Community
             </Link>
-            <Link href="#tiers" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
-              Contributor Tiers
-            </Link>
-            <Link href="/login" className="block text-sm font-medium text-gray-600 hover:text-orange-600">
-              Sign in
+            <Link href="#guidelines" className="block text-sm font-medium text-gray-600 hover:text-blue-600">
+              Guidelines
             </Link>
           </nav>
         </div>
