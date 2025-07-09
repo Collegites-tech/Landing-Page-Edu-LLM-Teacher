@@ -29,7 +29,7 @@ export function Header() {
           <Link href="#community" className="text-base font-medium text-gray-600 hover:text-orange-600 transition-colors">
             Community
           </Link>
-          <Link href="/contributor-guide-page/page2.tsx" className="text-base font-medium text-gray-600 hover:text-orange-600 transition-colors">
+          <Link href="/contributor-guide" className="text-base font-medium text-gray-600 hover:text-orange-600 transition-colors">
             Contributor Guidelines
           </Link>
         </nav>
