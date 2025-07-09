@@ -5,6 +5,7 @@ import { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { GripVertical, Users, Brain, Target, Globe } from "lucide-react"
 
 const initialCards = [
@@ -15,9 +16,8 @@ const initialCards = [
     subtitle: "India-first, teacher-led AI revolution",
     content:
       "Global LLMs don't reflect Indian pedagogy, language, or syllabus. Our teacher-built model understands the unique needs of Bharat's classrooms, cultural context, and diverse learning styles.",
-    color: "from-blue-50 to-gray-50",
-    borderColor: "border-blue-200",
-    iconColor: "from-blue-600 to-blue-800",
+    borderColor: "border-orange-200",
+    iconColor: "from-orange-600 to-orange-800",
   },
   {
     id: "how",
@@ -26,9 +26,8 @@ const initialCards = [
     subtitle: "How the model thinks and explains",
     content:
       "Your content trains the LLM to think and teach like an Indian educator. Every lesson or quiz you contribute refines how the AI explains concepts, answers doubts, and supports students in their native language.",
-    color: "from-gray-50 to-blue-50",
-    borderColor: "border-gray-200",
-    iconColor: "from-blue-600 to-blue-800",
+    borderColor: "border-orange-200",
+    iconColor: "from-orange-600 to-orange-800",
   },
   {
     id: "who",
@@ -37,15 +36,15 @@ const initialCards = [
     subtitle: "Teachers, tutors, creators, and edtech leaders",
     content:
       "Not just ChatGPT - this is a real classroom assistant that understands Indian curriculum, speaks regional languages, and respects our educational values and teaching methodologies.",
-    color: "from-blue-50 to-gray-50",
-    borderColor: "border-blue-200",
-    iconColor: "from-blue-600 to-blue-800",
+    borderColor: "border-orange-200",
+    iconColor: "from-orange-600 to-orange-800",
   },
 ]
 
 export function WhyHowWhoSection() {
   const [cards, setCards] = useState(initialCards)
   const [draggedCard, setDraggedCard] = useState<string | null>(null)
+  const [modalContent, setModalContent] = useState<null | { title: string; content: string }>(null)
 
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true })
@@ -79,7 +78,7 @@ export function WhyHowWhoSection() {
     <section
       id="why"
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-blue-200 to-blue-150 transition-colors duration-500"
+      className="py-20 bg-gradient-to-b from-orange-100 via-orange-50 to-white transition-colors duration-500"
     >
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
@@ -90,7 +89,7 @@ export function WhyHowWhoSection() {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Drag and rearrange the cards below to explore how you can be part of this revolutionary journey
             </p>
-            <p className="text-3xl md:text-4xl font-bold text-gray-500 mt-4">WHY + HOW + WHAT</p>
+            <p className="text-3xl md:text-4xl font-bold text-orange-500 mt-4">WHY + HOW + WHAT</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -107,7 +106,7 @@ export function WhyHowWhoSection() {
                   onDragStart={(e) => handleDragStart(e, card.id)}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, card.id)}
-                  className={`flex flex-col justify-between h-full cursor-pointer transition-all duration-700 ease-out transform hover:shadow-xl hover:-translate-y-2 bg-gradient-to-br ${card.color} ${card.borderColor} group border`}
+                  className={`flex flex-col justify-between h-full cursor-pointer transition-all duration-300 ease-out transform bg-white ${card.borderColor} border shadow-xl hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:-translate-y-2 group`}
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-center justify-between mb-4">
@@ -123,10 +122,13 @@ export function WhyHowWhoSection() {
                   </CardHeader>
 
                   <CardContent className="flex flex-col justify-between flex-1">
-                    <p className="text-gray-700 leading-relaxed mb-6">{card.content}</p>
+                    <p className="text-gray-700 leading-relaxed mb-6">
+                      {card.content.length > 120 ? card.content.slice(0, 120) + "..." : card.content}
+                    </p>
                     <Button
                       variant="outline"
-                      className="mt-auto w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 bg-transparent"
+                      className="mt-auto w-full border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white transition-all duration-300 bg-transparent"
+                      onClick={() => setModalContent({ title: card.title, content: card.content })}
                     >
                       Learn More
                     </Button>
@@ -137,8 +139,8 @@ export function WhyHowWhoSection() {
           </div>
 
           <div className="mt-16 text-center">
-            <div className="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-lg border border-blue-200">
-              <Globe className="h-5 w-5 text-blue-600" />
+            <div className="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-lg border border-orange-200">
+              <Globe className="h-5 w-5 text-orange-600" />
               <span className="text-sm font-medium text-gray-700">
                 Supporting 12+ Indian languages and growing
               </span>
@@ -146,6 +148,17 @@ export function WhyHowWhoSection() {
           </div>
         </div>
       </div>
+
+      {modalContent && (
+        <Dialog open onOpenChange={() => setModalContent(null)}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>{modalContent.title}</DialogTitle>
+            </DialogHeader>
+            <div className="text-gray-700 text-base">{modalContent.content}</div>
+          </DialogContent>
+        </Dialog>
+      )}
     </section>
   )
 }

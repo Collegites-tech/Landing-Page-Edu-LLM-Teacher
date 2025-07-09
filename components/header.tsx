@@ -9,28 +9,28 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-blue-100 supports-[backdrop-filter]:bg-white/90">
-      <div className="w-full flex h-16 items-center justify-between px-6 border border-amber-300">
+    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 supports-[backdrop-filter]:bg-white/80">
+      <div className="w-full flex h-16 items-center justify-between px-6 border-b border-orange-200">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-500 rounded-lg flex items-center justify-center">
             <GraduationCap className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-gray-900">EDU-LLM Teacher</span>
-            <span className="text-xs text-gray-500">Teacher-led AI</span>
+            <span className="text-xs text-gray-600">Teacher-led AI</span>
           </div>
         </div>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8">
-          <Link href="#about" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
+          <Link href="#about" className="text-base font-medium text-gray-600 hover:text-orange-600 transition-colors">
             About
           </Link>
-          <Link href="#community" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
+          <Link href="#community" className="text-base font-medium text-gray-600 hover:text-orange-600 transition-colors">
             Community
           </Link>
-          <Link href="#guidelines" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">
-            Guidelines
+          <Link href="/contributor-guide-page/page2.tsx" className="text-base font-medium text-gray-600 hover:text-orange-600 transition-colors">
+            Contributor Guidelines
           </Link>
         </nav>
 
@@ -43,15 +43,15 @@ export function Header() {
       {/* Mobile Menu Content */}
       {isMenuOpen && (
         <div className="md:hidden border-t bg-white w-full">
-          <nav className="w-full px-6 py-4 space-y-4">
-            <Link href="#about" className="block text-sm font-medium text-gray-600 hover:text-blue-600">
+          <nav className="w-full pl-6 py-4 space-y-4">
+            <Link href="#about" className="block text-base font-semibold text-gray-700 hover:text-orange-600">
               About
             </Link>
-            <Link href="#community" className="block text-sm font-medium text-gray-600 hover:text-blue-600">
+            <Link href="#community" className="block text-base font-semibold text-gray-700 hover:text-orange-600">
               Community
             </Link>
-            <Link href="#guidelines" className="block text-sm font-medium text-gray-600 hover:text-blue-600">
-              Guidelines
+            <Link href="/contributor-guide-page/page2.tsx" className="block text-base font-semibold text-gray-700 hover:text-orange-600">
+              Contributor Guidelines
             </Link>
           </nav>
         </div>

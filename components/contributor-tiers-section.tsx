@@ -15,7 +15,6 @@ import {
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 
 const initialTiers = [
   {
@@ -31,9 +30,7 @@ const initialTiers = [
       "Featured name on contributor wall",
       "Early access to new releases",
     ],
-    color: "from-amber-50 to-orange-50",
-    borderColor: "border-amber-300",
-    iconColor: "from-amber-500 to-orange-500",
+    iconColor: "from-orange-500 to-amber-500",
   },
   {
     id: "silver",
@@ -49,10 +46,7 @@ const initialTiers = [
       "Vote on new features and roadmap",
       "Priority support and feedback",
     ],
-    color: "from-gray-50 to-blue-50",
-    borderColor: "border-gray-300",
-    iconColor: "from-gray-500 to-blue-500",
-    popular: false,
+    iconColor: "from-orange-500 to-yellow-500",
   },
   {
     id: "gold",
@@ -69,11 +63,26 @@ const initialTiers = [
       "Early access to all new features",
       "Direct input on product roadmap",
     ],
-    color: "from-yellow-50 to-amber-50",
-    borderColor: "border-yellow-400",
-    iconColor: "from-yellow-500 to-amber-500",
+    iconColor: "from-orange-600 to-yellow-500",
   },
 ]
+
+function HoverButton() {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <Button
+      className="w-full max-w-[360px] h-14 text-xl bg-orange-600 text-white rounded-full transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-lg"
+      onClick={() =>
+        window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")
+      }
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {hovered ? "Join Us" : "Become a Contributor"}
+    </Button>
+  )
+}
 
 export function ContributorTiersSection() {
   const [tiers, setTiers] = useState(initialTiers)
@@ -110,18 +119,18 @@ export function ContributorTiersSection() {
     <section
       id="tiers"
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-blue-200 to-[#eff6ff]"
+      className="py-20 bg-gradient-to-b from-orange-50 to-orange-200"
     >
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-orange-900 mb-4">
               What You Get as a Contributor
             </h2>
-            <p className="text-lg text-black-100 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-orange-800 max-w-2xl mx-auto mb-8">
               Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore different contribution levels.
             </p>
-            <div className="flex items-center justify-center gap-4 text-sm text-black-100">
+            <div className="flex items-center justify-center gap-4 text-sm text-orange-700">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
                 <span>500+ Contributors</span>
@@ -151,16 +160,8 @@ export function ContributorTiersSection() {
                   onDragStart={(e) => handleDragStart(e, tier.id)}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, tier.id)}
-                  className={`flex flex-col justify-between h-full cursor-pointer hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br ${tier.color} ${tier.borderColor} border-2 rounded-xl group relative ${
-                    tier.popular ? "ring-2 ring-orange-400 ring-offset-2" : ""
-                  }`}
+                  className="flex flex-col justify-between h-full cursor-pointer bg-white border-2 border-orange-200 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 group relative"
                 >
-                  {tier.popular && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-orange-600 text-white px-3 py-1">Most Popular</Badge>
-                    </div>
-                  )}
-
                   <CardHeader className="pb-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
@@ -174,9 +175,13 @@ export function ContributorTiersSection() {
                       <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
                     </div>
 
-                    <CardTitle className="text-xl text-black mb-2">{tier.title}</CardTitle>
-                    <p className="text-sm font-medium text-orange-600 mb-3">{tier.subtitle}</p>
-                    <p className="text-sm text-gray-800">{tier.description}</p>
+                    <CardTitle className="text-xl text-black mb-2">
+                      {tier.title}
+                    </CardTitle>
+                    <p className="text-sm font-medium text-black mb-3">
+                      {tier.subtitle}
+                    </p>
+                    <p className="text-sm text-black">{tier.description}</p>
                   </CardHeader>
 
                   <CardContent className="space-y-6 flex-1">
@@ -184,7 +189,7 @@ export function ContributorTiersSection() {
                       {tier.benefits.map((benefit, index) => (
                         <div key={index} className="flex items-start gap-3">
                           <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0"></div>
-                          <span className="text-sm text-gray-700">{benefit}</span>
+                          <span className="text-sm text-black">{benefit}</span>
                         </div>
                       ))}
                     </div>
@@ -195,21 +200,8 @@ export function ContributorTiersSection() {
           </div>
 
           <div className="mt-16 text-center space-y-6">
-            <div className="max-ms-m mx-auto">
-              <Button
-                className="w-half h-12 bg-blue-600 text-white rounded-full transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-md relative overflow-hidden group"
-                onClick={() => window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")}
-                onMouseEnter={(e) => {
-                  const button = e.currentTarget
-                  button.innerText = "Join Us"
-                }}
-                onMouseLeave={(e) => {
-                  const button = e.currentTarget
-                  button.innerText = "Become a Contributor"
-                }}
-              >
-                Become a Contributor
-              </Button>
+            <div className="w-full flex justify-center px-4">
+              <HoverButton />
             </div>
           </div>
         </div>

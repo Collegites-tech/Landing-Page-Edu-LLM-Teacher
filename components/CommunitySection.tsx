@@ -6,11 +6,7 @@ import {
   Landmark,
   LineChart,
   MessageCircle,
-  ShieldCheck,
-  Award,
-  Calendar,
-  TrendingUp,
-  Star
+  Star,
 } from "lucide-react"
 
 const testimonials = [
@@ -18,20 +14,20 @@ const testimonials = [
     name: "Mark Williams",
     role: "Corporate Trainer",
     quote:
-      "Our training department has seen a 300% increase in completion rates since switching to videos created with Collegetes AI. The interactive elements and professional quality make all the difference. We've saved over 20 hours per week in video production time."
+      "Our training department has seen a 300% increase in completion rates since switching to videos created with Collegetes AI. The interactive elements and professional quality make all the difference. We've saved over 20 hours per week in video production time.",
   },
   {
     name: "Aarav Mehta",
     role: "Math Teacher",
     quote:
-      "Creating quizzes in multiple Indian languages has never been easier. This tool saves me hours every week!"
+      "Creating quizzes in multiple Indian languages has never been easier. This tool saves me hours every week!",
   },
   {
     name: "Sneha Rao",
     role: "Curriculum Designer",
     quote:
-      "Our team loves how seamless the content submission process is. The community is also incredibly active and helpful."
-  }
+      "Our team loves how seamless the content submission process is. The community is also incredibly active and helpful.",
+  },
 ]
 
 export default function CommunitySection() {
@@ -40,52 +36,52 @@ export default function CommunitySection() {
       icon: Users,
       value: "500+",
       label: "Active Contributors",
-      color: "text-blue-600"
+      color: "text-blue-600",
     },
     {
       icon: Landmark,
       value: "2,000+",
       label: "Content Pieces",
-      color: "text-green-600"
+      color: "text-green-600",
     },
     {
       icon: LineChart,
       value: "12+",
       label: "Languages Supported",
-      color: "text-purple-600"
+      color: "text-purple-600",
     },
     {
       icon: MessageCircle,
       value: "1,200+",
       label: "Community Members",
-      color: "text-orange-600"
-    }
+      color: "text-orange-600",
+    },
   ]
 
   const guidelines = [
     {
-      icon: ShieldCheck,
+      iconSrc: "/shield.png",
       title: "Invite-Only Community",
       description:
-        "No spam, no self-promotion, real name policy for authentic connections"
+        "No spam, no self-promotion, real name policy for authentic connections",
     },
     {
-      icon: Award,
+      iconSrc: "/medal.png",
       title: "Peer Recognition",
-      description: "Weekly spotlight features and top contributor leaderboards"
+      description: "Weekly spotlight features and top contributor leaderboards",
     },
     {
-      icon: Calendar,
+      iconSrc: "/calendar.png",
       title: "Regular Events",
       description:
-        "Monthly Zoom webinars with updates and contributor recognitions"
+        "Monthly Zoom webinars with updates and contributor recognitions",
     },
     {
-      icon: TrendingUp,
+      iconSrc: "/search-file.png",
       title: "Transparency",
       description:
-        "See how your content trains the LLM via feedback dashboard"
-    }
+        "See how your content trains the LLM via feedback dashboard",
+    },
   ]
 
   const [stats, setStats] = useState(initialStats)
@@ -93,7 +89,19 @@ export default function CommunitySection() {
   const [isPaused, setIsPaused] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Auto-rotate testimonials unless paused
+  // Modal state
+  const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null)
+
+  const handleCardClick = (index: number) => {
+    setActiveCardIndex(index)
+    setIsPaused(true)
+  }
+
+  const closeModal = () => {
+    setActiveCardIndex(null)
+    setIsPaused(false)
+  }
+
   useEffect(() => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
@@ -105,7 +113,6 @@ export default function CommunitySection() {
     }
   }, [isPaused])
 
-  // Shuffle stats
   useEffect(() => {
     const statInterval = setInterval(() => {
       setStats((prev) => {
@@ -123,9 +130,8 @@ export default function CommunitySection() {
   const handleClick = () => setIsPaused(true)
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-200 to-blue-150">
+    <section className="py-20 bg-gradient-to-br from-orange-50 to-orange-100">
       <div className="container mx-auto px-4 text-center">
-
         {/* Section Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Join Our Growing Community
@@ -139,7 +145,8 @@ export default function CommunitySection() {
           {stats.map((item, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:shadow-md transition-all duration-700 ease-in-out transform"
+              className="bg-white rounded-xl border border-gray-200 shadow-lg p-6 text-center hover:shadow-xl transition-all duration-700 ease-in-out transform cursor-pointer"
+              onClick={() => handleCardClick(index)}
             >
               <div className="flex justify-center mb-4">
                 <div className="p-3 border-2 border-amber-400 rounded-full">
@@ -152,52 +159,42 @@ export default function CommunitySection() {
           ))}
         </div>
 
-        {/* Testimonial Carousel */}
-        <div className="relative mx-auto max-w-4xl w-full mb-20">
-          <div
-            className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-amber-400 transition-all duration-700 ease-in-out"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-          >
-            <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="flex space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-500" />
-                ))}
-              </div>
-              <p className="italic text-gray-700 text-lg max-w-3xl transition-opacity duration-500 ease-in-out">
-                "{testimonials[currentTestimonial].quote}"
-              </p>
-              <div className="text-center mt-4">
-                <p className="font-semibold text-gray-900">
-                  {testimonials[currentTestimonial].name}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {testimonials[currentTestimonial].role}
-                </p>
+        {/* Modal for Stats Cards */}
+        {activeCardIndex !== null && (
+          <>
+            <div
+              className="fixed inset-0 bg-black/40 z-40 transition-opacity"
+              onClick={closeModal}
+            />
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl border border-gray-300">
+                <div className="text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="p-3 border-2 border-amber-400 rounded-full">
+                      {(() => {
+                        const Icon = stats[activeCardIndex].icon
+                        const color = stats[activeCardIndex].color
+                        return <Icon className={`w-8 h-8 ${color}`} />
+                      })()}
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {stats[activeCardIndex].label}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Status: <strong>{stats[activeCardIndex].value}</strong>
+                  </p>
+                  <button
+                    onClick={closeModal}
+                    className="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Dots Navigation */}
-          <div className="flex justify-center mt-4 space-x-3">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setCurrentTestimonial(i)
-                  setIsPaused(true)
-                }}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentTestimonial === i
-                    ? "bg-orange-500 scale-125"
-                    : "bg-orange-200 hover:bg-amber-400"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+          </>
+        )}
 
         {/* Guidelines Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
@@ -215,7 +212,11 @@ export default function CommunitySection() {
             >
               <div className="flex justify-center mb-3">
                 <div className="bg-blue-100 p-2.5 rounded-full">
-                  <item.icon className="w-5 h-5 text-blue-600" />
+                  <img
+                    src={item.iconSrc}
+                    alt={item.title}
+                    className="w-5 h-5 object-contain"
+                  />
                 </div>
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">
