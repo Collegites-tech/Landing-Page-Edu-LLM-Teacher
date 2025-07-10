@@ -39,11 +39,12 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
-      {/* Background */}
+      {/* Animated Light Gradient Background */}
       <div
-        className={`absolute inset-0 z-0 transition-all duration-[4000ms] ease-in-out ${
-          isMounted ? "opacity-100 blur-0" : "opacity-0 blur-md"
-        } bg-gradient-to-b from-orange-100 via-orange-50 to-white bg-[length:100%_100%]`}
+        className={`absolute inset-0 z-0 transition-all duration-[4000ms] ease-in-out
+          ${isMounted ? "opacity-100 blur-0" : "opacity-0 blur-md"}
+          bg-gradient-to-br from-orange-100 via-orange-200 to-white
+          bg-[length:300%_300%] animate-[gradient-light_12s_ease_infinite]`}
       />
 
       <div className="relative z-10 w-full px-3 sm:px-6 max-w-[1400px] mx-auto">
@@ -75,14 +76,17 @@ export function HeroSection() {
             >
               <Button
                 size="lg"
-                className="bg-orange-600 hover:bg-orange-600 text-white px-8 py-4 text-xl rounded-full transition-all duration-300"
+                className="bg-orange-600 hover:bg-orange-600 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 min-w-[17rem] text-center relative overflow-hidden"
                 onClick={() =>
                   window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")
                 }
                 onMouseEnter={() => setIsButtonHovered(true)}
                 onMouseLeave={() => setIsButtonHovered(false)}
               >
-                {isButtonHovered ? "Join Us" : "Become a Contributor"}
+                <span className="invisible">Become a Contributor</span>
+                <span className="absolute inset-0 flex items-center justify-center">
+                  {isButtonHovered ? "Join Us" : "Become a Contributor"}
+                </span>
               </Button>
 
               <div className="flex gap-3 flex-wrap">
