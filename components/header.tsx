@@ -71,7 +71,7 @@ export function Header() {
               Community
             </Link>
             <Link
-              href="/contributor-guide-page/page2.tsx"
+              href="/contributor-guide"
               className="block text-base font-semibold text-gray-700 hover:text-orange-600"
             >
               Contributor Guidelines
