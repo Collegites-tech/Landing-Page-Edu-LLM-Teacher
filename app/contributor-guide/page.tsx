@@ -23,11 +23,13 @@ import {
   Clock,
   X,
   ChevronRight,
+  Info,
 } from "lucide-react"
 
 export default function ContributorGuide() {
   const [currentStep, setCurrentStep] = useState(0)
   const [activeModal, setActiveModal] = useState<string | null>(null)
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null)
 
   const data = {
     steps: [
@@ -61,73 +63,17 @@ export default function ContributorGuide() {
       },
     ],
     contributions: [
-      {
-        type: "Notes",
-        format: "PDF, DOC (Typed or Scanned)",
-        icon: FileText,
-        points: "20-25",
-        description: "Share your teaching notes and classroom materials to help AI understand Indian teaching methods.",
-      },
-      {
-        type: "Lesson Plans",
-        format: "DOCX, PDF (with learning objectives)",
-        icon: BookOpen,
-        points: "40",
-        description:
-          "Upload structured lesson plans with objectives and teaching strategies for maximum AI training value.",
-      },
-      {
-        type: "Slide Decks",
-        format: "PPT, Google Slides",
-        icon: FileText,
-        points: "20-25",
-        description:
-          "Contribute presentation slides to help AI learn visual teaching and content presentation methods.",
-      },
-      {
-        type: "MCQ Quizzes",
-        format: "DOC, Form, Excel",
-        icon: MessageSquare,
-        points: "20",
-        description: "Share quiz questions and assessments to train AI in student evaluation and testing methods.",
-      },
-      {
-        type: "Translations",
-        format: "English + Hindi/Regional languages",
-        icon: Globe,
-        points: "40",
-        description: "Provide multilingual educational content to make AI accessible across Indian languages.",
-      },
-      {
-        type: "Feedback",
-        format: "Suggestions and corrections",
-        icon: MessageSquare,
-        points: "15",
-        description: "Offer expert insights and improvements to continuously enhance AI quality and accuracy.",
-      },
+      { type: "Notes", format: "PDF, DOC (Typed or Scanned)", icon: FileText, points: "20-25" },
+      { type: "Lesson Plans", format: "DOCX, PDF (with learning objectives)", icon: BookOpen, points: "40" },
+      { type: "Slide Decks", format: "PPT, Google Slides", icon: FileText, points: "20-25" },
+      { type: "MCQ Quizzes", format: "DOC, Form, Excel", icon: MessageSquare, points: "20" },
+      { type: "Translations", format: "English + Hindi/Regional languages", icon: Globe, points: "40" },
+      { type: "Feedback", format: "Suggestions and corrections", icon: MessageSquare, points: "15" },
     ],
     tiers: [
-      {
-        name: "Early Partner",
-        badge: "🥉",
-        perks: "Badge + Certificate + Tool Access",
-        color: "bg-amber-50 text-amber-700 border-amber-200",
-        description: "Join as an Early Partner and get exclusive access to contributor tools and resources.",
-      },
-      {
-        name: "Core Contributor",
-        badge: "🥈",
-        perks: "Public Recognition + Beta Access",
-        color: "bg-gray-50 text-gray-700 border-gray-200",
-        description: "Advance through consistent contributions and enjoy public recognition with early feature access.",
-      },
-      {
-        name: "Co-Creator",
-        badge: "🥇",
-        perks: "Featured Profile + Collaboration Invites",
-        color: "bg-yellow-50 text-yellow-700 border-yellow-200",
-        description: "Reach the highest tier with featured recognition and exclusive collaboration opportunities.",
-      },
+      { name: "Early Partner", badge: "🥉", color: "bg-amber-100 text-amber-800 border-amber-300" },
+      { name: "Core Contributor", badge: "🥈", color: "bg-gray-100 text-gray-800 border-gray-300" },
+      { name: "Co-Creator", badge: "🥇", color: "bg-yellow-100 text-yellow-800 border-yellow-300" },
     ],
     points: [
       {
@@ -249,7 +195,7 @@ export default function ContributorGuide() {
         title: "Email Support",
         desc: "support@collegites.tech",
         color: "from-orange-400 to-orange-500",
-        link: "mailto:support@collegites.tech",
+        link: "https://mail.google.com/mail/?view=cm&fs=1&to=support@collegites.tech&su=Support%20Request%20-%20Bharat-EDU-LLM&body=Hello%20Support%20Team,%0A%0AI%20need%20help%20with:%0A%0A[Please%20describe%20your%20issue%20here]%0A%0AThank%20you!",
       },
       {
         icon: Users,
@@ -257,13 +203,6 @@ export default function ContributorGuide() {
         desc: "WhatsApp Community",
         color: "from-orange-500 to-orange-600",
         link: "https://forms.gle/jSydHxxUx7TaAaYAA",
-      },
-      {
-        icon: Globe,
-        title: "Visit Website",
-        desc: "collegites.tech",
-        color: "from-orange-600 to-orange-700",
-        link: "https://collegites.tech/",
       },
     ],
     welcome: [
@@ -291,7 +230,7 @@ export default function ContributorGuide() {
   const Card3D = ({ item, i, onClick }: any) => (
     <Card
       key={i}
-      className={`bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-3xl overflow-hidden ${onClick ? "cursor-pointer" : ""} hover:scale-105 transition-all duration-300`}
+      className={`bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-3xl overflow-hidden ${onClick ? "cursor-pointer" : ""} hover:scale-105 transition-all duration-300`}
       onClick={onClick}
     >
       <CardHeader className={`bg-gradient-to-r ${item.color} text-white p-${onClick ? "8" : "6"} text-center`}>
@@ -306,8 +245,8 @@ export default function ContributorGuide() {
       </CardHeader>
       <CardContent className={`p-${onClick ? "8" : "6"} ${onClick ? "text-center" : ""}`}>
         {item.content ? (
-          item.content.map((text: string, i: number) => (
-            <p key={i} className="text-gray-700 leading-relaxed mb-4">
+          item.content.map((text: string, j: number) => (
+            <p key={j} className="text-gray-700 leading-relaxed mb-4">
               {text}
             </p>
           ))
@@ -375,7 +314,7 @@ export default function ContributorGuide() {
             onClick={() => setActiveModal("rewards")}
           />
         </div>
-        <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-3xl overflow-hidden">
+        <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-3xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-orange-600 to-orange-700 text-white p-8 text-center">
             <Shield className="h-16 w-16 mx-auto mb-4" />
             <CardTitle className="text-2xl">Safety & Community</CardTitle>
@@ -399,7 +338,7 @@ export default function ContributorGuide() {
           </CardContent>
         </Card>
       </div>,
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data.contact.map((option, i) => (
           <Card3D key={i} item={option} i={i} />
         ))}
@@ -409,55 +348,69 @@ export default function ContributorGuide() {
   const ModalContent = () => {
     if (activeModal === "contribute")
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {data.contributions.map((item, i) => (
-            <Card key={i} className="border border-gray-200 rounded-2xl">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <item.icon className="h-6 w-6 text-orange-600" />
-                  <CardTitle className="text-lg">{item.type}</CardTitle>
+        <Card className="border-0 shadow-none">
+          <CardContent className="p-0">
+            <div className="space-y-4">
+              {data.contributions.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl border border-orange-200"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
+                      <item.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-800 text-lg">{item.type}</h3>
+                      <p className="text-sm text-orange-600 font-medium">{item.format}</p>
+                    </div>
+                  </div>
+                  <Badge className="bg-orange-600 text-white font-bold text-lg px-4 py-2">{item.points} pts</Badge>
                 </div>
-                <p className="text-sm text-orange-600 font-medium">{item.format}</p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 mb-4 text-sm">{item.description}</p>
-                <Badge className="bg-orange-600 text-white">{item.points} points</Badge>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       )
+
     if (activeModal === "rewards")
       return (
         <div className="space-y-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Contributor Tiers</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <h3 className="text-2xl font-bold mb-6 text-center">Contributor Tiers</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {data.tiers.map((tier, i) => (
-                <Card key={i} className="text-center border border-gray-200 rounded-2xl">
-                  <CardHeader>
-                    <div className="text-4xl mb-2">{tier.badge}</div>
-                    <CardTitle className="text-lg">{tier.name}</CardTitle>
-                    <Badge className={tier.color}>Tier {i + 1}</Badge>
+                <Card key={i} className="text-center border-2 rounded-3xl hover:scale-105 transition-all duration-300">
+                  <CardHeader className="pb-4">
+                    <div className="text-6xl mb-4">{tier.badge}</div>
+                    <CardTitle className="text-xl">{tier.name}</CardTitle>
+                    <Badge className={`${tier.color} text-lg px-4 py-2`}>Tier {i + 1}</Badge>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-2">{tier.perks}</p>
-                    <p className="text-xs text-gray-500">{tier.description}</p>
-                  </CardContent>
                 </Card>
               ))}
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-4">Points System</h3>
-            <div className="space-y-3">
+            <h3 className="text-2xl font-bold mb-6 text-center">Points System</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.points.map((item, i) => (
-                <div key={i} className="flex justify-between items-center p-4 bg-gray-50 rounded-2xl">
-                  <div>
-                    <h4 className="font-semibold text-gray-800">{item.action}</h4>
-                    <p className="text-sm text-gray-600">{item.description}</p>
-                  </div>
-                  <Badge className="bg-orange-600 text-white font-bold">{item.points} pts</Badge>
+                <div key={i} className="relative">
+                  <button
+                    className="w-full p-4 bg-gradient-to-r from-orange-100 to-orange-200 rounded-2xl border border-orange-300 hover:from-orange-200 hover:to-orange-300 transition-all duration-300 text-left"
+                    onMouseEnter={() => setHoveredPoint(i)}
+                    onMouseLeave={() => setHoveredPoint(null)}
+                  >
+                    <div className="flex justify-between items-center">
+                      <h4 className="font-bold text-gray-800 text-sm">{item.action}</h4>
+                      <Badge className="bg-orange-600 text-white font-bold">{item.points} pts</Badge>
+                    </div>
+                    <Info className="h-4 w-4 text-orange-600 mt-2" />
+                  </button>
+                  {hoveredPoint === i && (
+                    <div className="absolute z-10 top-full left-0 right-0 mt-2 p-3 bg-white border border-gray-200 rounded-xl shadow-lg">
+                      <p className="text-sm text-gray-600">{item.description}</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -480,6 +433,7 @@ export default function ContributorGuide() {
           </Card>
         </div>
       )
+
     if (activeModal === "content-usage")
       return (
         <div className="space-y-4">
@@ -494,70 +448,51 @@ export default function ContributorGuide() {
           ))}
         </div>
       )
+
     if (activeModal === "community-conduct")
       return (
         <div className="space-y-6">
           <p className="text-gray-700">{topic.content.description}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="bg-green-50 border border-green-200 rounded-2xl">
-              <CardHeader>
-                <CardTitle className="text-lg text-green-800 flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5" />
-                  Expected Behavior
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {topic.content.expectedBehavior?.map((behavior, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span className="text-sm">{behavior}</span>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-            <Card className="bg-red-50 border border-red-200 rounded-2xl">
-              <CardHeader>
-                <CardTitle className="text-lg text-red-800">Misconduct Consequences</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="p-3 bg-yellow-100 border border-yellow-300 rounded-xl">
-                  <h5 className="font-semibold text-yellow-800 text-sm mb-1">First Warning</h5>
-                  <p className="text-xs text-yellow-700">{topic.content.consequences?.firstWarning}</p>
+
+          <Card className="bg-green-50 border border-green-200 rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-lg text-green-800 flex items-center gap-2">
+                <CheckCircle className="h-5 w-5" />
+                Expected Behavior
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {topic.content.expectedBehavior?.map((behavior, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="text-sm">{behavior}</span>
                 </div>
-                <div className="p-3 bg-red-100 border border-red-300 rounded-xl">
-                  <h5 className="font-semibold text-red-800 text-sm mb-1">Repeated Misconduct</h5>
-                  <ul className="text-xs text-red-700 space-y-1">
-                    {topic.content.consequences?.repeatedMisconduct?.map((consequence, i) => (
-                      <li key={i}>• {consequence}</li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              ))}
+            </CardContent>
+          </Card>
         </div>
       )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-500 via-orange-300 to-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-white via-orange-50 to-orange-100 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         {[
-          { t: "20", l: "10", s: "32", o: "40" },
-          { t: "40", r: "20", s: "24", o: "50" },
-          { b: "20", l: "20", s: "40", o: "30" },
-          { b: "40", r: "10", s: "28", o: "40" },
-          { t: "1/2", l: "1/3", s: "20", o: "35" },
+          { t: "20", l: "10", s: "32", o: "20" },
+          { t: "40", r: "20", s: "24", o: "25" },
+          { b: "20", l: "20", s: "40", o: "15" },
+          { b: "40", r: "10", s: "28", o: "20" },
+          { t: "1/2", l: "1/3", s: "20", o: "18" },
         ].map((c, i) => (
           <div
             key={i}
-            className={`absolute ${c.t ? `top-${c.t}` : c.b ? `bottom-${c.b}` : ""} ${c.l ? `left-${c.l}` : c.r ? `right-${c.r}` : ""} w-${c.s} h-${c.s} ${i % 2 === 0 ? "bg-white/30" : "bg-orange-200"} rounded-full opacity-${c.o}`}
+            className={`absolute ${c.t ? `top-${c.t}` : c.b ? `bottom-${c.b}` : ""} ${c.l ? `left-${c.l}` : c.r ? `right-${c.r}` : ""} w-${c.s} h-${c.s} ${i % 2 === 0 ? "bg-white/40" : "bg-orange-200/30"} rounded-full opacity-${c.o}`}
           />
         ))}
       </div>
 
       <div className="relative z-10 flex">
-        <div className="w-20 lg:w-24 bg-white/20 backdrop-blur-md border-r border-white/30 flex flex-col items-center py-8 space-y-6">
+        <div className="w-20 lg:w-24 bg-white/30 backdrop-blur-md border-r border-orange-200/50 flex flex-col items-center py-8 space-y-6">
           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
             <BookOpen className="h-6 w-6 text-orange-600" />
           </div>
@@ -566,16 +501,16 @@ export default function ContributorGuide() {
               <div key={step.id} className="flex flex-col items-center">
                 <button
                   onClick={() => setCurrentStep(i)}
-                  className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110 font-bold text-lg ${i === currentStep ? step.color + " text-white shadow-xl" : i < currentStep ? "bg-white text-orange-600 border-2 border-orange-300 shadow-md" : "bg-white/30 text-white hover:bg-white/40"}`}
+                  className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110 font-bold text-lg ${i === currentStep ? step.color + " text-white shadow-xl" : i < currentStep ? "bg-white text-orange-600 border-2 border-orange-300 shadow-md" : "bg-white/50 text-orange-600 hover:bg-white/70"}`}
                 >
                   {i < currentStep ? <CheckCircle className="w-6 h-6" /> : <span>{i + 1}</span>}
                   {i === currentStep && (
-                    <div className="absolute -inset-1 rounded-full border-2 border-white/50 animate-pulse" />
+                    <div className="absolute -inset-1 rounded-full border-2 border-orange-300/50 animate-pulse" />
                   )}
                 </button>
                 {i < data.steps.length - 1 && (
                   <div
-                    className={`w-0.5 h-8 mt-2 transition-all duration-300 ${i < currentStep ? "bg-white/60" : "bg-white/30"}`}
+                    className={`w-0.5 h-8 mt-2 transition-all duration-300 ${i < currentStep ? "bg-orange-400/60" : "bg-orange-300/30"}`}
                   />
                 )}
               </div>
@@ -584,15 +519,15 @@ export default function ContributorGuide() {
         </div>
 
         <div className="flex-1">
-          <div className="bg-white/20 backdrop-blur-md border-b border-white/30 px-8 py-6">
+          <div className="bg-white/30 backdrop-blur-md border-b border-orange-200/50 px-8 py-6">
             <div className="max-w-6xl mx-auto flex items-center justify-between">
               <div>
-                <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">Bharat-EDU-LLM</h1>
-                <p className="text-white/90 text-lg">Contributor Guide</p>
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Bharat-EDU-LLM</h1>
+                <p className="text-gray-600 text-lg">Contributor Guide</p>
               </div>
               <Button
                 asChild
-                className="bg-white text-orange-600 hover:bg-white/90 font-semibold px-6 py-3 rounded-full shadow-lg"
+                className="bg-orange-600 text-white hover:bg-orange-700 font-semibold px-6 py-3 rounded-full shadow-lg"
               >
                 <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank" rel="noopener noreferrer">
                   Join Now <ExternalLink className="ml-2 h-4 w-4" />
@@ -601,11 +536,11 @@ export default function ContributorGuide() {
             </div>
           </div>
 
-          <div className="px-8 py-8">
+          <div className="px-4 md:px-8 py-8">
             <div className="max-w-6xl mx-auto">
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-white mb-1">{data.steps[currentStep].title}</h2>
-                <p className="text-white/90 text-lg">{data.steps[currentStep].subtitle}</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">{data.steps[currentStep].title}</h2>
+                <p className="text-gray-600 text-base md:text-lg">{data.steps[currentStep].subtitle}</p>
               </div>
               <div className="min-h-[500px]">
                 <StepContent />
@@ -617,7 +552,7 @@ export default function ContributorGuide() {
 
       {activeModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <Card className="bg-white max-w-4xl w-full max-h-[80vh] overflow-y-auto rounded-3xl shadow-2xl">
+          <Card className="bg-white max-w-5xl w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl">
             <CardHeader className="flex flex-row items-center justify-between p-6 border-b">
               <CardTitle className="text-2xl text-gray-800">
                 {activeModal === "contribute"
