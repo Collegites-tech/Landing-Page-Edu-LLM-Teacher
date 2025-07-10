@@ -11,6 +11,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       <div className="w-full flex h-16 items-center justify-between px-6 border-b border-orange-200">
+        {/* Logo and Title */}
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-500 rounded-lg flex items-center justify-center">
             <GraduationCap className="h-5 w-5 text-white" />
@@ -21,7 +22,7 @@ export function Header() {
           </div>
         </div>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
           <Link
             href="#about"
@@ -48,37 +49,42 @@ export function Header() {
           variant="ghost"
           size="icon"
           className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => setIsMenuOpen(prev => !prev)}
         >
           {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
 
-      {/* Mobile Menu Content */}
-      {isMenuOpen && (
-        <div className="md:hidden border-t bg-white w-full">
-          <nav className="w-full pl-6 py-4 space-y-4">
-            <Link
-              href="#about"
-              className="block text-base font-semibold text-gray-700 hover:text-orange-600"
-            >
-              About
-            </Link>
-            <Link
-              href="#community"
-              className="block text-base font-semibold text-gray-700 hover:text-orange-600"
-            >
-              Community
-            </Link>
-            <Link
-              href="/contributor-guide"
-              className="block text-base font-semibold text-gray-700 hover:text-orange-600"
-            >
-              Contributor Guidelines
-            </Link>
-          </nav>
-        </div>
-      )}
+      {/* Mobile Navigation */}
+      <div
+        className={`transition-all duration-300 ease-in-out overflow-hidden bg-white md:hidden ${
+          isMenuOpen ? "max-h-screen" : "max-h-0"
+        }`}
+      >
+        <nav className="w-full pl-6 py-4 space-y-4">
+          <Link
+            href="#about"
+            className="block text-base font-semibold text-gray-700 hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            About
+          </Link>
+          <Link
+            href="#community"
+            className="block text-base font-semibold text-gray-700 hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Community
+          </Link>
+          <Link
+            href="/contributor-guide"
+            className="block text-base font-semibold text-gray-700 hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Contributor Guidelines
+          </Link>
+        </nav>
+      </div>
     </header>
   )
 }
