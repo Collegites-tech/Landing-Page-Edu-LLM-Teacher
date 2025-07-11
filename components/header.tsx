@@ -11,8 +11,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       <div className="w-full flex h-16 items-center justify-between px-6 border-b border-orange-200">
-        {/* Logo and Title */}
-        <div className="flex items-center gap-2">
+        {/* Logo and Title wrapped in Link */}
+        <Link href="#hero" className="flex items-center gap-2 hover:opacity-80 transition">
           <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-500 rounded-lg flex items-center justify-center">
             <GraduationCap className="h-5 w-5 text-white" />
           </div>
@@ -20,7 +20,7 @@ export function Header() {
             <span className="text-lg font-bold text-gray-900">EDU-LLM Teacher</span>
             <span className="text-xs text-gray-600">Teacher-led AI</span>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
