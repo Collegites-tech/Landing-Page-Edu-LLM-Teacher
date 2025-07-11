@@ -17,7 +17,7 @@ export function Header() {
             <GraduationCap className="h-5 w-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-gray-900">EDU-LLM Teacher</span>
+            <span className="text-lg font-bold text-gray-900">Bharat-EDU-LLM</span>
             <span className="text-xs text-gray-600">Teacher-led AI</span>
           </div>
         </Link>

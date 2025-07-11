@@ -9,7 +9,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <GraduationCap className="h-8 w-8 text-orange-400" />
-              <span className="text-xl font-bold">EDU-LLM Teacher</span>
+              <span className="text-xl font-bold">Bharat-EDU-LLM</span>
             </div>
             <p className="text-gray-400 mb-4">
               Building India's first educational AI by teachers, for teachers. Empowering classrooms across Bharat with
