@@ -130,7 +130,7 @@ export function ContributorTiersSection() {
             <p className="text-lg text-orange-800 max-w-2xl mx-auto mb-8">
               Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore different contribution levels.
             </p>
-            <div className="flex items-center justify-center gap-4 text-sm text-orange-700">
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-orange-700">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
                 <span>500+ Contributors</span>
@@ -146,21 +146,22 @@ export function ContributorTiersSection() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+          {/* Responsive layout: vertical on small, grid on medium and up */}
+          <div className="flex flex-col gap-6 md:grid md:grid-cols-3">
             {tiers.map((tier, index) => (
               <motion.div
                 key={tier.id}
                 initial={{ x: -100, opacity: 0 }}
                 animate={isInView ? { x: 0, opacity: 1 } : {}}
                 transition={{ duration: 1, delay: index * 0.2 }}
-                className="h-full"
+                className="w-full"
               >
                 <Card
                   draggable
                   onDragStart={(e) => handleDragStart(e, tier.id)}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, tier.id)}
-                  className="flex flex-col justify-between h-full cursor-pointer bg-white border-2 border-orange-200 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-4 group relative"
+                  className="flex flex-col justify-between h-full bg-white border-2 border-orange-200 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 cursor-pointer p-5"
                 >
                   <CardHeader className="pb-6">
                     <div className="flex items-center justify-between mb-4">
