@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import type React from "react";
+import { useState, useRef } from "react";
+import { motion, useInView, useAnimation } from "framer-motion";
 import {
-  GripVertical,
   Award,
   Star,
   Crown,
   Users,
   Gift,
   Trophy,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { JoinFormModal } from "@/components/join-form-modal";
 
 const initialTiers = [
   {
@@ -65,55 +65,27 @@ const initialTiers = [
     ],
     iconColor: "from-orange-600 to-yellow-500",
   },
-]
+];
 
-function HoverButton() {
-  const [hovered, setHovered] = useState(false)
-
+function HoverButton({ onClick }: { onClick: () => void }) {
+  const [hovered, setHovered] = useState(false);
   return (
     <Button
       className="w-full max-w-[360px] h-14 text-xl bg-orange-600 text-white rounded-full transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-lg"
-      onClick={() =>
-        window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")
-      }
+      onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {hovered ? "Join Us" : "Become a Contributor"}
     </Button>
-  )
+  );
 }
 
 export function ContributorTiersSection() {
-  const [tiers, setTiers] = useState(initialTiers)
-  const [draggedTier, setDraggedTier] = useState<string | null>(null)
-  const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { once: true })
-
-  const handleDragStart = (e: React.DragEvent, tierId: string) => {
-    setDraggedTier(tierId)
-    e.dataTransfer.effectAllowed = "move"
-  }
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = "move"
-  }
-
-  const handleDrop = (e: React.DragEvent, targetTierId: string) => {
-    e.preventDefault()
-    if (!draggedTier || draggedTier === targetTierId) return
-
-    const draggedIndex = tiers.findIndex((tier) => tier.id === draggedTier)
-    const targetIndex = tiers.findIndex((tier) => tier.id === targetTierId)
-
-    const newTiers = [...tiers]
-    const [draggedItem] = newTiers.splice(draggedIndex, 1)
-    newTiers.splice(targetIndex, 0, draggedItem)
-
-    setTiers(newTiers)
-    setDraggedTier(null)
-  }
+  const [tiers, setTiers] = useState(initialTiers);
+  const [showModal, setShowModal] = useState(false);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true });
 
   return (
     <section
@@ -146,7 +118,6 @@ export function ContributorTiersSection() {
             </div>
           </div>
 
-          {/* Responsive layout: vertical on small, grid on medium and up */}
           <div className="flex flex-col gap-6 md:grid md:grid-cols-3">
             {tiers.map((tier, index) => (
               <motion.div
@@ -157,35 +128,34 @@ export function ContributorTiersSection() {
                 className="w-full"
               >
                 <Card
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, tier.id)}
-                  onDragOver={handleDragOver}
-                  onDrop={(e) => handleDrop(e, tier.id)}
-                  className="flex flex-col justify-between h-full bg-white border-2 border-orange-200 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 cursor-pointer p-5"
+                  className="relative flex flex-col justify-between h-full bg-white border-2 border-orange-200 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 p-5"
                 >
-                  <CardHeader className="pb-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tier.iconColor} flex items-center justify-center shadow-lg`}
-                        >
-                          <tier.icon className="h-6 w-6 text-white" />
-                        </div>
-                        <span className="text-2xl">{tier.emoji}</span>
-                      </div>
-                      <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
-                    </div>
+                  {/* Top-right emoji badge with pendulum animation */}
+                  <motion.div
+                    className="absolute top-4 right-4 text-3xl select-none"
+                    animate={{
+                      rotate: [-5, 5, -5],
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 4,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    {tier.emoji}
+                  </motion.div>
 
-                    <CardTitle className="text-xl text-black mb-2">
+                  <CardHeader className="pb-6">
+                    <CardTitle className="text-center text-xl font-bold text-black mb-2">
                       {tier.title}
                     </CardTitle>
-                    <p className="text-sm font-medium text-black mb-3">
+                    <p className="text-center text-sm font-medium text-black mb-3">
                       {tier.subtitle}
                     </p>
-                    <p className="text-sm text-black">{tier.description}</p>
+                    <p className="text-sm text-black text-center">{tier.description}</p>
                   </CardHeader>
 
-                  <CardContent className="space-y-6 flex-1">
+                  <CardContent className="space-y-6 flex-1 mt-4">
                     <div className="space-y-3">
                       {tier.benefits.map((benefit, index) => (
                         <div key={index} className="flex items-start gap-3">
@@ -202,11 +172,13 @@ export function ContributorTiersSection() {
 
           <div className="mt-16 text-center space-y-6">
             <div className="w-full flex justify-center px-4">
-              <HoverButton />
+              <HoverButton onClick={() => setShowModal(true)} />
             </div>
           </div>
         </div>
       </div>
+
+      <JoinFormModal showModal={showModal} onClose={() => setShowModal(false)} />
     </section>
-  )
+  );
 }

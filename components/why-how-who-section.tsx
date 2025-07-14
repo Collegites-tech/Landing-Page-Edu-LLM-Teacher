@@ -6,38 +6,32 @@ import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { GripVertical, Users, Brain, Target, Globe } from "lucide-react"
+import { Globe } from "lucide-react"
 
 const initialCards = [
   {
     id: "why",
-    icon: Target,
     title: "Why This Matters",
     subtitle: "India-first, teacher-led AI revolution",
     content:
-      "Global LLMs don't reflect Indian pedagogy, language, or syllabus. Our teacher-built model understands the unique needs of Bharat's classrooms, cultural context, and diverse learning styles.",
+      "Global AI models often miss the mark when it comes to India’s education system. They don’t understand our teaching methods, local languages, or the unique needs of students across Bharat. That’s why we're building an AI model shaped by Indian teachers—one that truly gets our classrooms, our culture, and how our students learn best. It supports multiple Indian languages, regional content, and is aligned with the real-life experiences of teachers and learners across the country.",
     borderColor: "border-orange-200",
-    iconColor: "from-orange-600 to-orange-800",
   },
   {
     id: "how",
-    icon: Brain,
     title: "How You'll Help Shape",
     subtitle: "How the model thinks and explains",
     content:
-      "Your content trains the LLM to think and teach like an Indian educator. Every lesson or quiz you contribute refines how the AI explains concepts, answers doubts, and supports students in their native language.",
+      "Every lesson, quiz, or idea you contribute helps train the AI to think like an Indian teacher. Your inputs shape how the model explains topics, clears doubts, and talks to students in a way they understand—whether it's in Hindi, Tamil, Bengali, or any other Indian language. The more local and diverse the content, the better the AI becomes at supporting real classrooms across Bharat, just like a thoughtful, experienced educator would.",
     borderColor: "border-orange-200",
-    iconColor: "from-orange-600 to-orange-800",
   },
   {
     id: "who",
-    icon: Users,
     title: "Who This is For",
     subtitle: "Teachers, tutors, creators, and edtech leaders",
     content:
-      "Not just ChatGPT - this is a real classroom assistant that understands Indian curriculum, speaks regional languages, and respects our educational values and teaching methodologies.",
+      "This isn’t just another ChatGPT. It’s a real teaching assistant made for Indian classrooms. It understands school subjects from our syllabus, communicates in regional languages like Hindi, Tamil, or Marathi, and respects the way our teachers teach. From lesson plans to classroom doubts, it’s designed to support the Indian way of learning—with the right values, cultural context, and local teaching methods built in.",
     borderColor: "border-orange-200",
-    iconColor: "from-orange-600 to-orange-800",
   },
 ]
 
@@ -108,20 +102,12 @@ export function WhyHowWhoSection() {
                   onDrop={(e) => handleDrop(e, card.id)}
                   className={`flex flex-col justify-between h-full cursor-pointer transition-all duration-300 ease-out transform bg-white ${card.borderColor} border shadow-xl hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:-translate-y-2 group`}
                 >
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <div
-                        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.iconColor} flex items-center justify-center shadow-lg`}
-                      >
-                        <card.icon className="h-6 w-6 text-white" />
-                      </div>
-                      <GripVertical className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors cursor-pointer" />
-                    </div>
-                    <CardTitle className="text-xl text-black">{card.title}</CardTitle>
+                  <CardHeader className="pb-4 text-center">
+                    <CardTitle className="text-xl md:text-2xl text-black mb-1">{card.title}</CardTitle>
                     <p className="text-sm font-medium text-orange-600">{card.subtitle}</p>
                   </CardHeader>
 
-                  <CardContent className="flex flex-col justify-between flex-1">
+                  <CardContent className="flex flex-col justify-between flex-1 text-center">
                     <p className="text-gray-700 leading-relaxed mb-6">
                       {card.content.length > 120 ? card.content.slice(0, 120) + "..." : card.content}
                     </p>

@@ -1,15 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // ✅ Added this
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowDown, Sparkles, Users, Globe } from "lucide-react";
 import Image from "next/image";
+import { JoinFormModal } from "@/components/join-form-modal";
 
 export function HeroSection() {
   const [isMounted, setIsMounted] = useState(false);
   const [currentStat, setCurrentStat] = useState(0);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const router = useRouter(); // ✅ Initialize router
 
   const stats = [
     {
@@ -39,7 +44,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
-      {/* Animated Light Gradient Background */}
+      {/* Background */}
       <div
         className={`absolute inset-0 z-0 transition-all duration-[4000ms] ease-in-out
           ${isMounted ? "opacity-100 blur-0" : "opacity-0 blur-md"}
@@ -49,7 +54,7 @@ export function HeroSection() {
 
       <div className="relative z-10 w-full px-3 sm:px-6 max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* LEFT - TEXT CONTENT */}
+          {/* LEFT SIDE */}
           <div className="flex flex-col items-start justify-center w-full md:w-1/2 space-y-6">
             {/* Heading */}
             <div
@@ -64,42 +69,53 @@ export function HeroSection() {
                 </span>
               </h1>
               <p className="text-lg text-gray-700 leading-relaxed mt-3">
-                Let’s teach. Let’s reach. Let’s transform.
+                Built by teachers. For classrooms. In every language.
               </p>
             </div>
 
-            {/* CTA + Pills */}
+            {/* CTA + Guide + Pills */}
             <div
-              className={`flex flex-wrap items-center gap-4 transition-all duration-1000 ${
+              className={`flex flex-col gap-4 transition-all duration-1000 ${
                 isMounted ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
               }`}
             >
-              <Button
-                size="lg"
-                className="bg-orange-600 hover:bg-orange-600 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 min-w-[17rem] text-center relative overflow-hidden"
-                onClick={() =>
-                  window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")
-                }
-                onMouseEnter={() => setIsButtonHovered(true)}
-                onMouseLeave={() => setIsButtonHovered(false)}
-              >
-                <span className="invisible">Become a Contributor</span>
-                <span className="absolute inset-0 flex items-center justify-center">
-                  {isButtonHovered ? "Join Us" : "Become a Contributor"}
-                </span>
-              </Button>
+              {/* Buttons Row */}
+              <div className="flex flex-wrap items-center gap-3">
+                <Button
+                  size="lg"
+                  className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 min-w-[17rem] text-center relative overflow-hidden"
+                  onClick={() => setShowModal(true)}
+                  onMouseEnter={() => setIsButtonHovered(true)}
+                  onMouseLeave={() => setIsButtonHovered(false)}
+                >
+                  <span className="invisible">Become a Contributor</span>
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    {isButtonHovered ? "Join Us" : "Become a Contributor"}
+                  </span>
+                </Button>
 
-              <div className="flex gap-3 flex-wrap">
-                <span className="px-2.5 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
+                {/* ✅ Updated Button to route using Next.js */}
+                <Button
+                  size="lg"
+                  className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 text-base rounded-full transition-all duration-300"
+                  onClick={() => router.push("/contributor-guide")}
+                >
+                  Contributor Guide
+                </Button>
+              </div>
+
+              {/* Pills Row */}
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="px-3 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
                   50+ Contributors
                 </span>
-                <span className="px-2.5 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
+                <span className="px-3 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
                   12+ Languages
                 </span>
               </div>
             </div>
 
-            {/* Stats Card */}
+            {/* Stats Box */}
             <div
               className={`transition-all duration-1000 ease-out ${
                 isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -108,10 +124,9 @@ export function HeroSection() {
               <Card className="bg-white p-5 shadow-md rounded-xl border border-orange-500 max-w-xl">
                 <p className="text-gray-700 leading-relaxed mb-3">
                   <span className="font-semibold text-gray-900">
-                    Help build India’s first EDU-LLM
+                    Help build Bharat first EDU-LLM
                   </span>{" "}
-                  by sharing your four AI lessons and clusters, teach each topic
-                  micro-tiered to Indian classrooms in every language.
+                  Building India's first educational AI by teachers, for teachers. Empowering classrooms across Bharat with multilingual AI assistance.
                 </p>
                 <div className="flex items-center space-x-2 text-sm">
                   {stats[currentStat].icon}
@@ -124,7 +139,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT - IMAGE */}
+          {/* RIGHT IMAGE */}
           <div
             className={`transition-all duration-1000 ease-out ${
               isMounted ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
@@ -148,6 +163,9 @@ export function HeroSection() {
           </a>
         </div>
       </div>
+
+      {/* Modal Form */}
+      {showModal && <JoinFormModal showModal={showModal} onClose={() => setShowModal(false)} />}
     </section>
   );
 }
