@@ -132,7 +132,7 @@ export function ContributorTiersSection() {
                 >
                   {/* Top-right emoji badge with pendulum animation */}
                   <motion.div
-                    className="absolute top-4 right-4 text-3xl select-none"
+                    className="absolute top-0 right-0 text-5xl select-none"
                     animate={{
                       rotate: [-5, 5, -5],
                     }}
