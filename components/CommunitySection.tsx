@@ -34,13 +34,13 @@ export default function CommunitySection() {
   const initialStats = [
     {
       icon: Users,
-      value: "500+",
+      value: "50+",
       label: "Active Contributors",
       color: "text-blue-600",
     },
     {
       icon: Landmark,
-      value: "2,000+",
+      value: "200+",
       label: "Content Pieces",
       color: "text-green-600",
     },
@@ -52,7 +52,7 @@ export default function CommunitySection() {
     },
     {
       icon: MessageCircle,
-      value: "1,200+",
+      value: "80+",
       label: "Community Members",
       color: "text-orange-600",
     },

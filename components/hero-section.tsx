@@ -19,12 +19,12 @@ export function HeroSection() {
   const stats = [
     {
       icon: <Users className="h-4 w-4 text-orange-600" />,
-      number: "500+",
+      number: "50+",
       label: "Teachers Joined",
     },
     {
       icon: <Globe className="h-4 w-4 text-orange-600" />,
-      number: "2,500+",
+      number: "200+",
       label: "Teachers Impacted",
     },
     {
@@ -52,7 +52,7 @@ export function HeroSection() {
           bg-[length:300%_300%] animate-[gradient-light_12s_ease_infinite]`}
       />
 
-      <div className="relative z-10 w-full px-3 sm:px-6 max-w-[1400px] mx-auto">
+      <div className="relative z-10 w-full px-4 sm:px-10 md:px-16 max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* LEFT SIDE */}
           <div className="flex flex-col items-start justify-center w-full md:w-1/2 space-y-6">
@@ -73,19 +73,18 @@ export function HeroSection() {
               </p>
             </div>
 
-            {/* CTA + Guide + Pills */}
+            {/* CTA + Pills + Guide */}
             <div
-              className={`flex flex-col gap-4 transition-all duration-1000 ${
+              className={`flex flex-col gap-3 transition-all duration-1000 ${
                 isMounted ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
               }`}
             >
-              {/* Buttons Row */}
-              <div className="flex flex-wrap items-center gap-3">
+              {/* CTA Row */}
+              <div className="flex flex-wrap items-center justify-start gap-3">
                 <Button
                   size="lg"
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 min-w-[17rem] text-center relative overflow-hidden"
+                  className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 text-center relative overflow-hidden"
                   onClick={() => {
-                    // setShowModal(true); // Commented for future reuse
                     window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank");
                   }}
                   onMouseEnter={() => setIsButtonHovered(true)}
@@ -97,23 +96,24 @@ export function HeroSection() {
                   </span>
                 </Button>
 
-                <Button
-                  size="lg"
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 text-base rounded-full transition-all duration-300"
-                  onClick={() => router.push("/contributor-guide")}
-                >
-                  Contributor Guide
-                </Button>
-              </div>
-
-              {/* Pills Row */}
-              <div className="flex flex-wrap items-center gap-3">
+                {/* Pills moved right beside the CTA */}
                 <span className="px-3 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
                   50+ Contributors
                 </span>
                 <span className="px-3 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
                   12+ Languages
                 </span>
+              </div>
+
+              {/* Contributor Guide Button */}
+              <div className="flex justify-start">
+                <Button
+                  size="sm"
+                  className="ml-1 sm:ml-14 bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 text-xs rounded-full transition-all duration-300"
+                  onClick={() => router.push("/contributor-guide")}
+                >
+                  Contributor Guide
+                </Button>
               </div>
             </div>
 
@@ -128,7 +128,7 @@ export function HeroSection() {
                   <span className="font-semibold text-gray-900">
                     Help build Bharat first EDU-LLM
                   </span>{" "}
-                  Building India's first educational AI by teachers, for teachers. Empowering classrooms across Bharat with multilingual AI assistance.
+                  India's first educational AI Model built by and for educators. Empowering classrooms across Bharat with multilingual AI assistance.
                 </p>
                 <div className="flex items-center space-x-2 text-sm">
                   {stats[currentStat].icon}

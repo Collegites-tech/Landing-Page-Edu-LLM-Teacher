@@ -11,7 +11,7 @@ import CommunitySection from "@/components/CommunitySection"
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      {/* <Header /> */}
       <main className="overflow-x-hidden">
         <HeroSection />
         <WhyHowWhoSection />

@@ -80,10 +80,10 @@ export function WhyHowWhoSection() {
             <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
               Building India's Educational Future
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {/* <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Drag and rearrange the cards below to explore how you can be part of this revolutionary journey
-            </p>
-            <p className="text-3xl md:text-4xl font-bold text-orange-500 mt-4">WHY + HOW + WHAT</p>
+            </p> */}
+            <p className="text-3xl md:text-4xl font-bold text-orange-500 mt-4">WHY + HOW + WHO</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">

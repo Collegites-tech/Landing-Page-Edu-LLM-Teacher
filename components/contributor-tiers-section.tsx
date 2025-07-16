@@ -100,12 +100,13 @@ export function ContributorTiersSection() {
               What You Get as a Contributor
             </h2>
             <p className="text-lg text-orange-800 max-w-2xl mx-auto mb-8">
-              Join thousands of educators shaping the future of AI-powered education in India. Drag the tiers to explore different contribution levels.
+              Join thousands of educators shaping the future of AI-powered education in India. 
+              Explore different contribution levels.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm text-orange-700">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span>500+ Contributors</span>
+                <span>50+ Contributors</span>
               </div>
               <div className="flex items-center gap-2">
                 <Trophy className="h-4 w-4" />
