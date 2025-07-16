@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // ✅ Added this
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowDown, Sparkles, Users, Globe } from "lucide-react";
@@ -14,7 +14,7 @@ export function HeroSection() {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const router = useRouter(); // ✅ Initialize router
+  const router = useRouter();
 
   const stats = [
     {
@@ -84,7 +84,10 @@ export function HeroSection() {
                 <Button
                   size="lg"
                   className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 min-w-[17rem] text-center relative overflow-hidden"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => {
+                    // setShowModal(true); // Commented for future reuse
+                    window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank");
+                  }}
                   onMouseEnter={() => setIsButtonHovered(true)}
                   onMouseLeave={() => setIsButtonHovered(false)}
                 >
@@ -94,7 +97,6 @@ export function HeroSection() {
                   </span>
                 </Button>
 
-                {/* ✅ Updated Button to route using Next.js */}
                 <Button
                   size="lg"
                   className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 text-base rounded-full transition-all duration-300"

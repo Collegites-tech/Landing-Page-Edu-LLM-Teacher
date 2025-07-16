@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useState, useRef } from "react";
-import { motion, useInView, useAnimation } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   Award,
   Star,
@@ -82,7 +82,7 @@ function HoverButton({ onClick }: { onClick: () => void }) {
 }
 
 export function ContributorTiersSection() {
-  const [tiers, setTiers] = useState(initialTiers);
+  const [tiers] = useState(initialTiers);
   const [showModal, setShowModal] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true });
@@ -172,13 +172,19 @@ export function ContributorTiersSection() {
 
           <div className="mt-16 text-center space-y-6">
             <div className="w-full flex justify-center px-4">
-              <HoverButton onClick={() => setShowModal(true)} />
+              <HoverButton
+                onClick={() =>
+                  window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")
+                  // setShowModal(true); // Uncomment this to use the modal instead
+                }
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <JoinFormModal showModal={showModal} onClose={() => setShowModal(false)} />
+      {/* Modal is preserved for future use */}
+      {showModal && <JoinFormModal showModal={showModal} onClose={() => setShowModal(false)} />}
     </section>
   );
 }
