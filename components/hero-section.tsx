@@ -43,8 +43,8 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
-      {/* Background */}
+    <section className="relative w-full pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
+      {/* Background Gradient */}
       <div
         className={`absolute inset-0 z-0 transition-all duration-[4000ms] ease-in-out
           ${isMounted ? "opacity-100 blur-0" : "opacity-0 blur-md"}
@@ -52,6 +52,7 @@ export function HeroSection() {
           bg-[length:300%_300%] animate-[gradient-light_12s_ease_infinite]`}
       />
 
+      {/* Content Wrapper */}
       <div className="relative z-10 w-full px-4 sm:px-10 md:px-16 max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* LEFT SIDE */}
@@ -73,30 +74,38 @@ export function HeroSection() {
               </p>
             </div>
 
-            {/* CTA + Pills + Guide */}
+            {/* CTA Buttons */}
             <div
-              className={`flex flex-col gap-3 transition-all duration-1000 ${
+              className={`flex flex-col gap-4 transition-all duration-1000 ${
                 isMounted ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0"
               }`}
             >
-              {/* CTA Row */}
-              <div className="flex flex-wrap items-center justify-start gap-3">
+              {/* Top full-width CTA */}
+              <Button
+                size="lg"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-10 py-5 text-xl rounded-full transition-all duration-300 relative overflow-hidden w-full max-w-[440px]"
+                onClick={() =>
+                  window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank")
+                }
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
+              >
+                <span className="invisible">Become a Contributor</span>
+                <span className="absolute inset-0 flex items-center justify-center">
+                  {isButtonHovered ? "Join Us" : "Become a Contributor"}
+                </span>
+              </Button>
+
+              {/* Bottom row: Contributor Guide + Pills */}
+              <div className="flex flex-wrap items-center gap-x-[2px] gap-y-2">
                 <Button
-                  size="lg"
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-xl rounded-full transition-all duration-300 text-center relative overflow-hidden"
-                  onClick={() => {
-                    window.open("https://forms.gle/jSydHxxUx7TaAaYAA", "_blank");
-                  }}
-                  onMouseEnter={() => setIsButtonHovered(true)}
-                  onMouseLeave={() => setIsButtonHovered(false)}
+                  size="sm"
+                  className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 text-xs rounded-full transition-all duration-300 transform hover:scale-105"
+                  onClick={() => router.push("/contributor-guide")}
                 >
-                  <span className="invisible">Become a Contributor</span>
-                  <span className="absolute inset-0 flex items-center justify-center">
-                    {isButtonHovered ? "Join Us" : "Become a Contributor"}
-                  </span>
+                  Contributor Guide
                 </Button>
 
-                {/* Pills moved right beside the CTA */}
                 <span className="px-3 py-1.5 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 shadow-sm">
                   50+ Contributors
                 </span>
@@ -104,20 +113,9 @@ export function HeroSection() {
                   12+ Languages
                 </span>
               </div>
-
-              {/* Contributor Guide Button */}
-              <div className="flex justify-start">
-                <Button
-                  size="sm"
-                  className="ml-1 sm:ml-14 bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 text-xs rounded-full transition-all duration-300"
-                  onClick={() => router.push("/contributor-guide")}
-                >
-                  Contributor Guide
-                </Button>
-              </div>
             </div>
 
-            {/* Stats Box */}
+            {/* Stats Card */}
             <div
               className={`transition-all duration-1000 ease-out ${
                 isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -128,7 +126,8 @@ export function HeroSection() {
                   <span className="font-semibold text-gray-900">
                     Help build Bharat first EDU-LLM
                   </span>{" "}
-                  India's first educational AI Model built by and for educators. Empowering classrooms across Bharat with multilingual AI assistance.
+                  India's first educational AI Model built by and for educators.
+                  Empowering classrooms across Bharat with multilingual AI assistance.
                 </p>
                 <div className="flex items-center space-x-2 text-sm">
                   {stats[currentStat].icon}
@@ -159,15 +158,17 @@ export function HeroSection() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-12 sm:mt-16">
           <a href="#why" className="animate-bounce cursor-pointer">
             <ArrowDown className="h-6 w-6 text-orange-600" />
           </a>
         </div>
       </div>
 
-      {/* Modal Form */}
-      {showModal && <JoinFormModal showModal={showModal} onClose={() => setShowModal(false)} />}
+      {/* Join Modal */}
+      {showModal && (
+        <JoinFormModal showModal={showModal} onClose={() => setShowModal(false)} />
+      )}
     </section>
   );
 }

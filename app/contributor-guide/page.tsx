@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,13 +24,115 @@ import {
   Info,
 } from "lucide-react"
 
-// Future use: Import the join form modal component
-// import JoinFormModal from "@/components/join-form-modal"
-
 export default function ContributorGuide() {
   const [currentStep, setCurrentStep] = useState(0)
   const [activeModal, setActiveModal] = useState<string | null>(null)
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null)
+  const [isScrolling, setIsScrolling] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  // Refs for scroll detection
+  const containerRef = useRef<HTMLDivElement>(null)
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  // Improved scroll event listener for smoother step-wise progression
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth < 1024 || isScrolling) return // Only apply on desktop and when not manually scrolling
+
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const scrollableHeight = documentHeight - windowHeight
+
+      // Calculate scroll progress
+      const scrollProgress = scrollY / scrollableHeight
+
+      // Check scroll delta to prevent micro-movements from triggering changes
+      const scrollDelta = Math.abs(scrollY - lastScrollY)
+      if (scrollDelta < 30) return // Minimum scroll distance to trigger step change
+
+      // More gradual thresholds for smoother step transitions
+      let newStep = currentStep
+
+      // Forward scrolling (down)
+      if (scrollY > lastScrollY) {
+        if (scrollProgress > 0.2 && currentStep === 0) {
+          newStep = 1
+        } else if (scrollProgress > 0.45 && currentStep === 1) {
+          newStep = 2
+        } else if (scrollProgress > 0.7 && currentStep === 2) {
+          newStep = 3
+        }
+      }
+      // Backward scrolling (up)
+      else if (scrollY < lastScrollY) {
+        if (scrollProgress < 0.65 && currentStep === 3) {
+          newStep = 2
+        } else if (scrollProgress < 0.4 && currentStep === 2) {
+          newStep = 1
+        } else if (scrollProgress < 0.15 && currentStep === 1) {
+          newStep = 0
+        }
+      }
+
+      // Only update if step has changed
+      if (newStep !== currentStep) {
+        setCurrentStep(newStep)
+      }
+
+      setLastScrollY(scrollY)
+    }
+
+    // Reduced debounce for smoother response
+    let scrollTimeout: NodeJS.Timeout
+    const debouncedScroll = () => {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(handleScroll, 5) // Reduced from 100ms to 50ms
+    }
+
+    window.addEventListener("scroll", debouncedScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", debouncedScroll)
+      clearTimeout(scrollTimeout)
+    }
+  }, [currentStep, isScrolling, lastScrollY])
+
+  // Improved manual step clicking with better scroll sync
+  const handleStepClick = (stepIndex: number) => {
+    setIsScrolling(true)
+    setCurrentStep(stepIndex)
+
+    // Calculate target scroll position for the step
+    const windowHeight = window.innerHeight
+    const totalScrollHeight = document.documentElement.scrollHeight - windowHeight
+
+    // More precise scroll positioning
+    let targetScroll = 0
+    if (stepIndex === 1) {
+      targetScroll = totalScrollHeight * 0.25
+    } else if (stepIndex === 2) {
+      targetScroll = totalScrollHeight * 0.5
+    } else if (stepIndex === 3) {
+      targetScroll = totalScrollHeight * 0.75
+    }
+
+    // Smooth scroll to the calculated position
+    window.scrollTo({
+      top: targetScroll,
+      behavior: "smooth",
+    })
+
+    // Update lastScrollY immediately to prevent conflicts
+    setLastScrollY(targetScroll)
+
+    // Shorter timeout for better responsiveness
+    setTimeout(() => {
+      setIsScrolling(false)
+      // Resync scroll position after animation
+      setLastScrollY(window.scrollY)
+    }, 800) // Reduced from 1500ms to 800ms
+  }
 
   const data = {
     steps: [
@@ -313,53 +415,53 @@ export default function ContributorGuide() {
     ],
   }
 
+  // Updated Card3D component with more compact header
   const Card3D = ({ item, onClick }: any) => (
     <Card
       className={`bg-white/80 animate-metallic-gradient border-0 shadow-xl rounded-3xl overflow-hidden ${onClick ? "cursor-pointer hover:scale-105 hover:shadow-2xl" : ""} transition-all duration-300`}
       onClick={onClick}
     >
-      <CardHeader className={`bg-gradient-to-r ${item.color} text-white p-6 sm:p-8 text-center`}>
-        {item.icon && <item.icon className="h-12 w-12 mx-auto mb-3 sm:h-16 sm:w-16 sm:mb-4" />}
+      <CardHeader className={`bg-gradient-to-r ${item.color} text-white p-4 sm:p-5 text-center`}>
         {item.step && (
-          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold mx-auto mb-3 sm:mb-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold mx-auto mb-2">
             {item.step}
           </div>
         )}
-        <CardTitle className="text-lg sm:text-xl">{item.title}</CardTitle>
-        {item.subtitle && <CardDescription className="text-orange-100">{item.subtitle}</CardDescription>}
+        <CardTitle className="text-lg">{item.title}</CardTitle>
+        {item.subtitle && <CardDescription className="text-orange-100 text-sm">{item.subtitle}</CardDescription>}
       </CardHeader>
-      <CardContent className={`p-6 sm:p-8 ${onClick ? "text-center" : ""}`}>
+      <CardContent className={`p-5 ${onClick ? "text-center" : ""}`}>
         {item.content ? (
           item.content.map((text: string, j: number) => (
-            <p key={j} className="text-gray-700 leading-relaxed mb-4">
+            <p key={j} className="text-gray-700 leading-relaxed mb-3 text-sm">
               {text}
             </p>
           ))
         ) : (
           <>
-            <p className="text-gray-700 font-medium mb-4">{item.desc}</p>
+            <p className="text-gray-700 font-medium mb-3 text-sm">{item.desc}</p>
             {item.time && (
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-600 mb-4">
-                <Clock className="h-4 w-4" />
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mb-3">
+                <Clock className="h-3 w-3" />
                 <span>{item.time}</span>
               </div>
             )}
             {onClick && (
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-6 mt-4">
-                View Details <ChevronRight className="ml-2 h-4 w-4" />
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-4 mt-2 text-sm">
+                View Details <ChevronRight className="ml-1 h-3 w-3" />
               </Button>
             )}
           </>
         )}
         {item.link && (
-          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-4">
+          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-3 text-sm">
             <Link href={item.link} target="_blank">
               {item.buttonText || "Get Help"}
             </Link>
           </Button>
         )}
         {item.isJoinButton && (
-          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-4">
+          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-3 text-sm">
             <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank">
               Join Us
             </Link>
@@ -373,7 +475,7 @@ export default function ContributorGuide() {
     switch (stepIndex) {
       case 0:
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8" ref={(el) => (sectionRefs.current[0] = el)}>
             {data.welcome.map((card, i) => (
               <Card3D key={i} item={card} />
             ))}
@@ -381,7 +483,7 @@ export default function ContributorGuide() {
         )
       case 1:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6" ref={(el) => (sectionRefs.current[1] = el)}>
             {data.getStarted.map((step, i) => (
               <Card3D key={i} item={step} />
             ))}
@@ -389,8 +491,8 @@ export default function ContributorGuide() {
         )
       case 2:
         return (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6 lg:space-y-8" ref={(el) => (sectionRefs.current[2] = el)}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <Card3D
                 item={{
                   icon: BookOpen,
@@ -413,23 +515,23 @@ export default function ContributorGuide() {
               />
             </div>
             <Card className="bg-white/80 animate-metallic-gradient border-0 shadow-xl rounded-3xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-orange-600 to-orange-700 text-white p-8 text-center">
-                <Shield className="h-16 w-16 mx-auto mb-4" />
-                <CardTitle className="text-2xl">Safety & Community</CardTitle>
-                <CardDescription className="text-orange-100">
+              <CardHeader className="bg-gradient-to-r from-orange-600 to-orange-700 text-white p-4 lg:p-5 text-center">
+                <Shield className="h-10 w-10 lg:h-12 lg:w-12 mx-auto mb-2 lg:mb-3" />
+                <CardTitle className="text-lg lg:text-xl">Safety & Community</CardTitle>
+                <CardDescription className="text-orange-100 text-sm">
                   Your data is protected and our community maintains high standards
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <CardContent className="p-4 lg:p-5">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
                   {data.safety.map((topic) => (
                     <button
                       key={topic.id}
                       onClick={() => setActiveModal(topic.id)}
-                      className="p-4 bg-white animate-metallic-gradient rounded-2xl hover:bg-orange-100 hover:scale-105 hover:shadow-lg transition-all duration-300 text-center"
+                      className="p-3 bg-white animate-metallic-gradient rounded-2xl hover:bg-orange-100 hover:scale-105 hover:shadow-lg transition-all duration-300 text-center"
                     >
-                      <topic.icon className="h-8 w-8 text-orange-500 mx-auto mb-2" />
-                      <h3 className="font-semibold text-gray-800 text-sm">{topic.title}</h3>
+                      <topic.icon className="h-5 w-5 lg:h-6 lg:w-6 text-orange-500 mx-auto mb-2" />
+                      <h3 className="font-semibold text-gray-800 text-xs lg:text-sm">{topic.title}</h3>
                     </button>
                   ))}
                 </div>
@@ -439,7 +541,7 @@ export default function ContributorGuide() {
         )
       case 3:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" ref={(el) => (sectionRefs.current[3] = el)}>
             {data.contact.map((option, i) => (
               <Card3D key={i} item={option} />
             ))}
@@ -455,22 +557,24 @@ export default function ContributorGuide() {
       return (
         <Card className="border-0 shadow-none">
           <CardContent className="p-0">
-            <div className="space-y-4">
+            <div className="space-y-3">
               {data.contributions.map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-4 animate-metallic-gradient rounded-2xl border border-orange-200 hover:scale-[1.01] hover:shadow-md transition-all duration-300"
+                  className="flex items-center justify-between p-3 lg:p-4 animate-metallic-gradient rounded-xl border border-orange-200 hover:scale-[1.01] hover:shadow-md transition-all duration-300"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-                      <item.icon className="h-6 w-6 text-white" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <item.icon className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-gray-800 text-lg">{item.type}</h3>
-                      <p className="text-sm text-orange-600 font-medium">{item.format}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-gray-800 text-sm lg:text-base truncate">{item.type}</h3>
+                      <p className="text-xs lg:text-sm text-orange-600 font-medium truncate">{item.format}</p>
                     </div>
                   </div>
-                  <Badge className="bg-orange-600 text-white font-bold text-lg px-4 py-2">{item.points} pts</Badge>
+                  <Badge className="bg-orange-600 text-white font-semibold text-xs lg:text-sm px-2 py-1 lg:px-3 lg:py-1 flex-shrink-0 ml-2">
+                    {item.points} pts
+                  </Badge>
                 </div>
               ))}
             </div>
@@ -647,7 +751,10 @@ export default function ContributorGuide() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-orange-50 to-orange-100 relative overflow-hidden">
+    <div
+      className="min-h-screen bg-gradient-to-br from-white via-orange-50 to-orange-100 relative overflow-hidden"
+      ref={containerRef}
+    >
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden">
         {[
@@ -665,34 +772,34 @@ export default function ContributorGuide() {
       </div>
       <div className="relative z-10">
         {/* Header */}
-        <div className="bg-orange-50/70 backdrop-blur-md border-b border-orange-200/50 px-4 md:px-8 py-6">
+        <div className="bg-orange-50/70 backdrop-blur-md border-b border-orange-200/50 px-4 md:px-8 py-4 lg:py-6">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Bharat-EDU-LLM</h1>
-              <p className="text-gray-600 text-base md:text-lg">Contributor Guide</p>
+              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-800 mb-1 lg:mb-2">Bharat-EDU-LLM</h1>
+              <p className="text-gray-600 text-sm md:text-base lg:text-lg">Contributor Guide</p>
             </div>
             <Button
               asChild
-              className="bg-orange-600 text-white hover:bg-orange-700 font-semibold px-6 py-3 rounded-full shadow-lg"
+              className="bg-orange-600 text-white hover:bg-orange-700 font-semibold px-4 lg:px-6 py-2 lg:py-3 rounded-full shadow-lg text-sm lg:text-base"
             >
               <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank">
-                Join Us <ExternalLink className="ml-2 h-4 w-4" />
+                Join Us <ExternalLink className="ml-2 h-3 w-3 lg:h-4 lg:w-4" />
               </Link>
             </Button>
           </div>
         </div>
         <div className="flex">
           {/* Desktop Sidebar */}
-          <div className="hidden lg:flex w-24 bg-orange-50/70 backdrop-blur-md border-r border-orange-200/50 flex-col items-center py-8 space-y-6">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-              <BookOpen className="h-6 w-6 text-orange-600" />
+          <div className="hidden lg:flex w-20 xl:w-24 bg-orange-50/70 backdrop-blur-md border-r border-orange-200/50 flex-col items-center py-6 lg:py-8 space-y-4 lg:space-y-6 fixed h-full">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+              <BookOpen className="h-5 w-5 lg:h-6 lg:w-6 text-orange-600" />
             </div>
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-3 lg:space-y-4">
               {data.steps.map((step, i) => (
                 <div key={step.id} className="flex flex-col items-center">
                   <button
-                    onClick={() => setCurrentStep(i)}
-                    className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110 font-bold text-lg ${
+                    onClick={() => handleStepClick(i)}
+                    className={`relative w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110 font-bold text-base lg:text-lg ${
                       i === currentStep
                         ? step.color + " text-white shadow-xl"
                         : i < currentStep
@@ -700,14 +807,14 @@ export default function ContributorGuide() {
                           : "bg-white/50 text-orange-600 hover:bg-white/70"
                     }`}
                   >
-                    {i < currentStep ? <CheckCircle className="w-6 h-6" /> : <span>{i + 1}</span>}
+                    {i < currentStep ? <CheckCircle className="w-5 h-5 lg:w-6 lg:h-6" /> : <span>{i + 1}</span>}
                     {i === currentStep && (
                       <div className="absolute -inset-1 rounded-full border-2 border-orange-300/50 animate-pulse" />
                     )}
                   </button>
                   {i < data.steps.length - 1 && (
                     <div
-                      className={`w-0.5 h-8 mt-2 transition-all duration-300 ${i < currentStep ? "bg-orange-400/60" : "bg-orange-300/30"}`}
+                      className={`w-0.5 h-6 lg:h-8 mt-2 transition-all duration-300 ${i < currentStep ? "bg-orange-400/60" : "bg-orange-300/30"}`}
                     />
                   )}
                 </div>
@@ -715,25 +822,25 @@ export default function ContributorGuide() {
             </div>
           </div>
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="flex-1 lg:ml-20 xl:ml-24">
             {/* Desktop Step View */}
-            <div className="hidden lg:block px-8 py-8 animate-metallic-gradient">
+            <div className="hidden lg:block px-6 lg:px-8 py-6 lg:py-8 animate-metallic-gradient">
               <div className="max-w-6xl mx-auto">
-                <div className="mb-8">
-                  <h2 className="text-3xl font-bold text-gray-800 mb-1">{data.steps[currentStep].title}</h2>
-                  <p className="text-gray-600 text-lg">{data.steps[currentStep].subtitle}</p>
+                <div className="mb-6 lg:mb-8">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">{data.steps[currentStep].title}</h2>
+                  <p className="text-gray-600 text-base lg:text-lg">{data.steps[currentStep].subtitle}</p>
                 </div>
-                <div className="min-h-[500px]">{renderSection(currentStep)}</div>
+                <div className="min-h-[400px] lg:min-h-[500px]">{renderSection(currentStep)}</div>
               </div>
             </div>
             {/* Mobile Scrollable View */}
-            <div className="lg:hidden px-4 py-8 animate-metallic-gradient space-y-16">
+            <div className="lg:hidden px-4 py-6 animate-metallic-gradient space-y-12">
               <div className="max-w-6xl mx-auto">
                 {data.steps.map((step, i) => (
-                  <div key={step.id} className="mb-16">
-                    <div className="mb-8">
-                      <h2 className="text-2xl font-bold text-gray-800 mb-1">{step.title}</h2>
-                      <p className="text-gray-600">{step.subtitle}</p>
+                  <div key={step.id} className="mb-12">
+                    <div className="mb-6">
+                      <h2 className="text-xl font-bold text-gray-800 mb-1">{step.title}</h2>
+                      <p className="text-gray-600 text-sm">{step.subtitle}</p>
                     </div>
                     {renderSection(i)}
                   </div>
@@ -743,13 +850,12 @@ export default function ContributorGuide() {
           </div>
         </div>
       </div>
-
       {/* Other Modals */}
       {activeModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <Card className="bg-white max-w-5xl w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl animate-metallic-gradient">
-            <CardHeader className="flex flex-row items-center justify-between p-6 border-b">
-              <CardTitle className="text-xl md:text-2xl text-gray-800">
+            <CardHeader className="flex flex-row items-center justify-between p-4 lg:p-6 border-b">
+              <CardTitle className="text-lg md:text-xl lg:text-2xl text-gray-800">
                 {activeModal === "contribute"
                   ? "What You Can Contribute"
                   : activeModal === "rewards"
@@ -757,10 +863,10 @@ export default function ContributorGuide() {
                     : data.safety.find((topic) => topic.id === activeModal)?.title}
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => setActiveModal(null)} className="rounded-full">
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4 lg:h-5 lg:w-5" />
               </Button>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="p-4 lg:p-6">
               <ModalContent />
             </CardContent>
           </Card>
