@@ -22,13 +22,13 @@ const initialTiers = [
     icon: Award,
     title: "Early Partner",
     emoji: "🥉",
-    subtitle: "Contribute content + feedback",
+    subtitle: "",
     description: "Start your journey as a contributor to India's first EDU-LLM",
     benefits: [
-      "Contributor badge and certificate",
-      "Access to first tools and features",
-      "Featured name on contributor wall",
-      "Early access to new releases",
+      "Early Partner badge and certificate",
+      "Contribute content and give feedback",
+      "Early access to new release",
+      "Spotlight story and shout-outs",
     ],
     iconColor: "from-orange-500 to-amber-500",
   },
@@ -37,14 +37,13 @@ const initialTiers = [
     icon: Star,
     title: "Core Contributor",
     emoji: "🥈",
-    subtitle: "Quality contributions + feedback rounds",
+    subtitle: "",
     description: "Become a key voice in shaping our AI's teaching methodology",
     benefits: [
-      "Spotlight story and shout-out posts",
+      "Core contributor badge and certificate",
       "Invite to beta-test next tools",
-      "Ability to invite new members",
-      "Vote on new features and roadmap",
-      "Priority support and feedback",
+      "Vote on new features and suggestions",
+      "Featured name on contributor wall",
     ],
     iconColor: "from-orange-500 to-yellow-500",
   },
@@ -53,15 +52,13 @@ const initialTiers = [
     icon: Crown,
     title: "Co-Creator",
     emoji: "🥇",
-    subtitle: "Consistent contributions + community involvement",
+    subtitle: "",
     description: "Lead the revolution in Indian educational AI technology",
     benefits: [
-      '"Co-created EDU-LLM" digital badge',
+      '"Co-creator badge and certificate',
+      "Early access to all new features and tools",
+      "Direct access to share inputs in team meetings",
       "Personal profile featured on site",
-      "Speaking slot in webinars",
-      "Special access to team meetings",
-      "Early access to all new features",
-      "Direct input on product roadmap",
     ],
     iconColor: "from-orange-600 to-yellow-500",
   },
@@ -99,9 +96,10 @@ export function ContributorTiersSection() {
             <h2 className="text-3xl md:text-4xl font-bold text-orange-900 mb-4">
               What You Get as a Contributor
             </h2>
-            <p className="text-lg text-orange-800 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-orange-800 max-w-3xl mx-auto mb-8 leading relaxed">
               Join thousands of educators shaping the future of AI-powered education in India. 
-              Explore different contribution levels.
+              As a contributor, you earn points when you contribute content like Notes, Slides/PPTs, Lesson Plans on Bharat EDU-LLM. 
+              Those points lead to higher levels of the program, as well as benefits like early access to new tools and features and invites to special events.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm text-orange-700">
               <div className="flex items-center gap-2">

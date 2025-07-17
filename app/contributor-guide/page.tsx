@@ -108,55 +108,60 @@ export default function ContributorGuide() {
     safety: [
       {
         id: "data-safety",
-        title: "Your Data is Safe",
+        title: "Your Data Is Safe",
+        subtitle: "T&C & Data policy",
         icon: Shield,
         content: {
-          description:
-            "We collect minimal personal information (name, email, teaching role) only to personalize your contributor experience and maintain effective communication.",
+          description: "",
           commitment:
-            "Your personal data will never be sold, shared with third parties, or used commercially without your explicit consent. We maintain strict security protocols and comply with all privacy regulations.",
+            "Your personal data will never be sold, shared with third parties, or used commercially without your explicit consent. We maintain strict security protocols and comply with all privacy regulations.  By joining the Bharat-EDU-LLM Contributor Program, you agree to how we collect and use your shared data to support the development of India's first educator-led AI.",
           termsAndConditions: {
             title: "Terms & Conditions",
             sections: [
               {
-                title: "1. Purpose of the Program",
+                title: "1. What We Collect",
                 content:
-                  "The Program allows educators, researchers, and education professionals to contribute educational material that may be used to train and improve Bharat-EDU-LLM, India's first teacher-led education language model.",
+                  "We collect basic personal and professional details (like your name, email, subject expertise, and content submissions). Optional data like photos or social media handles may be included if you choose.",
               },
               {
-                title: "2. Eligibility",
+                title: "2. Why We Use Your Data",
                 content:
-                  "To join the Program, you must: Be 18 years or older, Be an educator, tutor, or edtech professional, Provide accurate information during signup.",
+                  " Your data helps us manage your contributor role, track participation, assign tier levels, and enhance the model's understanding of Indian education. Submitted content is used to train and refine the AI.",
               },
               {
-                title: "3. Content Contribution",
+                title: "3. Content Ownership & Use",
                 content:
-                  "By submitting educational content (notes, slides, quizzes, lesson plans, translations, feedback, etc.), you: Grant Bharat-EDU-LLM a non-exclusive, royalty-free, worldwide license to use, modify, adapt, and reproduce your content for educational and model training purposes. Retain ownership and authorship of your original work. Agree that your name and affiliation may be displayed as a contributor (only if you've provided consent).",
+                  "You retain ownership of your content, but by submitting it, you grant us a non-exclusive, royalty-free license to use it for research and training purposes—even if you leave the program. Public recognition is only shown with your consent.",
               },
               {
-                title: "4. Content Guidelines",
+                title: "4. Data Security",
                 content:
-                  "You agree to: Submit original or educationally licensed material only. Avoid plagiarized, AI-generated (without modification), harmful, or promotional content. Follow contribution formats and quality standards as outlined in the Contributor Guidelines.",
+                  " All data is securely stored and accessible only to authorized team members. We follow strong security protocols but cannot guarantee absolute safety, as with any online service.",
               },
               {
-                title: "5. Community Code of Conduct",
+                title: "5. Third-Party Tools",
                 content:
-                  "All contributors must: Maintain respectful, inclusive behavior in communication channels (WhatsApp, Telegram, webinars). Avoid spam, hate speech, or any form of harassment. Support and uplift fellow educators. Violations may lead to removal from the Program.",
+                  " We use tools like Google Forms, WhatsApp, and internal platforms to manage contributions and communication. These tools are used strictly for educational purposes not advertising.",
               },
               {
-                title: "6. Changes to Level Status or Rewards",
+                title: "6. Data Sharing",
                 content:
-                  "Your contributor level, badges, and perks are subject to change based on your activity level, contribution quality, and adherence to community rules. We reserve the right to update the program's structure at any time.",
+                  "We do not sell or share your private data. Public display (like your name or institution) is only done with your permission and never includes sensitive contact info.",
               },
               {
-                title: "7. Opt-Out and Content Removal",
+                title: "7. Your Rights",
                 content:
-                  "You can leave the Program at any time by contacting admin@collegites.tech. On request, we will: Remove your name and profile from public contributor listings. Retain rights to use already contributed content for training purposes (to maintain model continuity).",
+                  " You can access, update, or withdraw your data at any time. If you leave the program, we'll remove your public profile, but your submitted content may still be used under the license granted.",
               },
               {
-                title: "8. Limitation of Liability",
+                title: "8. Policy Updates",
                 content:
-                  "We do not guarantee specific results, rewards, or uses of your contribution. The Program is offered on a voluntary basis. You are responsible for ensuring that your contributions comply with your institution's or employer's policies.",
+                  " We may revise this policy over time and will inform you of major changes. Continued participation means acceptance of updated terms.",
+              },
+              {
+                title: "9. Jurisdiction",
+                content:
+                  " This Privacy Policy shall be governed by and construed in accordance with the laws of India. Any disputes arising in connection with this Privacy Policy shall be subject to the exclusive jurisdiction of the courts in Bhopal, Madhya Pradesh.",
               },
             ],
             dataUsePolicy: {
@@ -294,81 +299,107 @@ export default function ContributorGuide() {
     ],
     welcome: [
       {
+        id: "welcome-what-is",
         icon: Lightbulb,
         title: "What is Bharat-EDU-LLM?",
         color: "from-orange-400 to-orange-500",
         content: [
-          "India's first multilingual AI designed specifically for education. Built by teachers, for teachers, it learns from authentic Indian classroom materials.",
-          "Unlike generic AI systems, our model understands Indian teaching methods, regional languages, and diverse learning styles.",
+          "Bharat-EDU-LLM is India's first multilingual AI model created specially for education and it's being built in collaboration with and for educators across the country,. Instead of relying on generic internet content, this AI learns directly from real classroom materials like lesson plans, notes, quizzes, and slides shared by Indian educators.",
+          "What makes it different from regular AI tools is that it understands how Indian teachers actually teach. It picks up on the different teaching styles, the languages spoken in classrooms, and the unique ways students learn across the country whether it's explaining core concepts in Hindi, summarizing notes in Tamil, or adapting a teaching style familiar to rural classrooms, Bharat-EDU-LLM aims to think, respond, and teach the way an Indian educator would.",
+          "At its core, the model is driven by the principle of teacher-led AI development. It does not replace educators it learns from them. It learns from the wisdom and experience of educators to become more helpful for explaining concepts clearly, answering student questions in local languages, or creating teaching materials that work for Indian learners.",
+          "Through this initiative, we are not merely building a technical model we are shaping a national educational asset rooted in India's classrooms, languages, and teaching ideas.",
         ],
       },
       {
+        id: "welcome-your-role",
         icon: Target,
         title: "Your Role as Contributor",
         color: "from-orange-500 to-orange-600",
         content: [
-          "Shape how AI understands Indian education by sharing your teaching materials—notes, lesson plans, quizzes, and translations.",
-          "Help create an AI that thinks like an Indian teacher and serves diverse learners across the country.",
+          "As a contributor, you play a key part in building something truly meaningful an AI that understands how education really works in India. By sharing your own teaching materials, like notes, lesson plans, quizzes, slides, or translations, you're helping train an AI model that learns directly from real educators like you.",
+          "Your contributions shape how the AI explains topics, answers questions, and supports students in a way that reflects Indian classrooms, languages, and teaching styles. Whether it's helping a student in a rural school or assisting a teacher in a multilingual setting, your input ensures the AI stays grounded in the realities of Indian education.",
+          "Simply put, you're not just uploading content you're helping build a tool that empowers teachers and learners across the country.",
         ],
       },
     ],
   }
 
   // Updated Card3D component with more compact header
-  const Card3D = ({ item, onClick }: any) => (
-    <Card
-      className={`bg-white/80 animate-metallic-gradient border-0 shadow-xl rounded-3xl overflow-hidden ${onClick ? "cursor-pointer hover:scale-105 hover:shadow-2xl" : ""} transition-all duration-300`}
-      onClick={onClick}
-    >
-      <CardHeader className={`bg-gradient-to-r ${item.color} text-white p-4 sm:p-5 text-center`}>
-        {item.step && (
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold mx-auto mb-2">
-            {item.step}
-          </div>
-        )}
-        <CardTitle className="text-lg">{item.title}</CardTitle>
-        {item.subtitle && <CardDescription className="text-orange-100 text-sm">{item.subtitle}</CardDescription>}
-      </CardHeader>
-      <CardContent className={`p-5 ${onClick ? "text-center" : ""}`}>
-        {item.content ? (
-          item.content.map((text: string, j: number) => (
-            <p key={j} className="text-gray-700 leading-relaxed mb-3 text-sm">
-              {text}
-            </p>
-          ))
-        ) : (
-          <>
-            <p className="text-gray-700 font-medium mb-3 text-sm">{item.desc}</p>
-            {item.time && (
-              <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mb-3">
-                <Clock className="h-3 w-3" />
-                <span>{item.time}</span>
+  const Card3D = ({ item, onClick }: any) => {
+    const TRUNCATION_LIMIT = 600
+    return (
+      <Card
+        className={`bg-white/80 animate-metallic-gradient border-0 shadow-xl rounded-3xl overflow-hidden ${onClick ? "cursor-pointer hover:scale-105 hover:shadow-2xl" : ""} transition-all duration-300`}
+        onClick={onClick}
+      >
+        <CardHeader className={`bg-gradient-to-r ${item.color} text-white p-4 sm:p-5 text-center`}>
+          {item.step && (
+            <div className="flex items-center justify-center gap-2 mx-auto">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold">
+                {item.step}
               </div>
-            )}
-            {onClick && (
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-4 mt-2 text-sm">
-                View Details <ChevronRight className="ml-1 h-3 w-3" />
-              </Button>
-            )}
-          </>
-        )}
-        {item.link && (
-          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-3 text-sm">
-            <Link href={item.link} target="_blank">
-              {item.buttonText || "Get Help"}
-            </Link>
-          </Button>
-        )}
-        {item.isJoinButton && (
-          <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-3 text-sm">
-            <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank">
-              Join Us
-            </Link>
-          </Button>
-        )}
-      </CardContent>
-    </Card>
-  )
+              <CardTitle className="text-lg sm:text-xl">{item.title}</CardTitle>
+            </div>
+          )}
+          {!item.step && <CardTitle className="text-lg">{item.title}</CardTitle>}
+          {!item.step && item.subtitle && (
+            <CardDescription className="text-orange-100 text-sm">{item.subtitle}</CardDescription>
+          )}
+        </CardHeader>
+        <CardContent className={`p-5 ${onClick ? "text-center" : ""}`}>
+          {item.content ? (
+            <>
+              <p className="text-gray-700 leading-relaxed mb-3 text-sm">
+                {item.content.join(" ").length > TRUNCATION_LIMIT
+                  ? `${item.content.join(" ").substring(0, TRUNCATION_LIMIT)}...`
+                  : item.content.join(" ")}
+              </p>
+              {item.content.join(" ").length > TRUNCATION_LIMIT && (
+                <Button
+                  variant="outline"
+                  className="border-orange-500 text-orange-500 hover:bg-orange-50 hover:text-orange-600 rounded-full px-4 mt-2 text-sm bg-transparent"
+                  onClick={() => setActiveModal(item.id)}
+                >
+                  Learn More
+                </Button>
+              )}
+            </>
+          ) : (
+            <>
+              {item.step && item.subtitle && <p className="text-orange-600 text-sm mb-2">{item.subtitle}</p>}{" "}
+              {/* Moved subtitle here for step cards */}
+              <p className="text-gray-700 font-medium mb-3 text-sm">{item.desc}</p>
+              {item.time && (
+                <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mb-3">
+                  <Clock className="h-3 w-3" />
+                  <span>{item.time}</span>
+                </div>
+              )}
+              {onClick && (
+                <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-4 mt-2 text-sm">
+                  View Details <ChevronRight className="ml-1 h-3 w-3" />
+                </Button>
+              )}
+            </>
+          )}
+          {item.link && (
+            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-3 text-sm">
+              <Link href={item.link} target="_blank">
+                {item.buttonText || "Get Help"}
+              </Link>
+            </Button>
+          )}
+          {item.isJoinButton && (
+            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white rounded-full mt-3 text-sm">
+              <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank">
+                Join Us
+              </Link>
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+    )
+  }
 
   // This function now returns the content for a specific section, to be rendered multiple times
   const renderSectionContent = (stepIndex: number) => {
@@ -432,6 +463,7 @@ export default function ContributorGuide() {
                     >
                       <topic.icon className="h-5 w-5 lg:h-6 lg:w-6 text-orange-500 mx-auto mb-2" />
                       <h3 className="font-semibold text-gray-800 text-xs lg:text-sm">{topic.title}</h3>
+                      {topic.subtitle && <p className="text-xs text-gray-600">{topic.subtitle}</p>}
                     </button>
                   ))}
                 </div>
@@ -452,8 +484,14 @@ export default function ContributorGuide() {
     }
   }
 
+  // Change the header height constants
+  const headerHeight = 160 // Increased from 120px for desktop
+  const mobileHeaderHeight = 140 // Added separate mobile header height
+
   // Intersection Observer to detect current section in view
   useEffect(() => {
+    const headerHeight = 160 // Increased from 120
+    const rootMargin = `-${headerHeight}px 0px 0px 0px`
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -466,13 +504,12 @@ export default function ContributorGuide() {
         })
       },
       {
-        root: null, // viewport
-        rootMargin: "0px",
-        threshold: 0.5, // Trigger when 50% of the section is visible
+        root: null,
+        rootMargin: rootMargin,
+        threshold: 0.3, // Reduced threshold for better detection
       },
     )
 
-    // Observe all section elements
     sectionRefs.current.forEach((ref) => {
       if (ref) {
         observer.observe(ref)
@@ -480,7 +517,6 @@ export default function ContributorGuide() {
     })
 
     return () => {
-      // Disconnect observer on component unmount
       sectionRefs.current.forEach((ref) => {
         if (ref) {
           observer.unobserve(ref)
@@ -488,37 +524,34 @@ export default function ContributorGuide() {
       })
       observer.disconnect()
     }
-  }, [isScrollingProgrammatically, currentStep]) // Re-run if programmatic scrolling state changes
+  }, [isScrollingProgrammatically, currentStep])
 
   // Smooth scroll to the target step
   const handleStepClick = useCallback((stepIndex: number) => {
     if (sectionRefs.current[stepIndex]) {
       setIsScrollingProgrammatically(true)
-      sectionRefs.current[stepIndex]?.scrollIntoView({ behavior: "smooth", block: "start" })
-
-      // Set a timeout to reset the flag after the scroll animation completes
-      // Adjust timeout duration based on 'smooth' scroll behavior
+      const headerHeight = 160 // Increased from 120
+      const targetScrollPosition = sectionRefs.current[stepIndex]!.offsetTop - headerHeight
+      window.scrollTo({ top: targetScrollPosition, behavior: "smooth" })
       setTimeout(() => {
         setIsScrollingProgrammatically(false)
-      }, 1000) // Assuming scroll takes about 1 second
+      }, 1000)
     }
-    setCurrentStep(stepIndex) // Update current step immediately for UI feedback
+    setCurrentStep(stepIndex)
   }, [])
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (window.innerWidth < 1024) return // Only for desktop
-
+      if (window.innerWidth < 1024) return
       let newStep = currentStep
       if (event.key === "ArrowDown" || event.key === " ") {
         newStep = Math.min(currentStep + 1, data.steps.length - 1)
-        event.preventDefault() // Prevent native scroll for space/arrow keys
+        event.preventDefault()
       } else if (event.key === "ArrowUp") {
         newStep = Math.max(currentStep - 1, 0)
-        event.preventDefault() // Prevent native scroll for arrow keys
+        event.preventDefault()
       }
-
       if (newStep !== currentStep) {
         handleStepClick(newStep)
       }
@@ -531,6 +564,21 @@ export default function ContributorGuide() {
   }, [currentStep, handleStepClick, data.steps.length])
 
   const ModalContent = () => {
+    const welcomeCard = data.welcome.find((card) => card.id === activeModal)
+    if (welcomeCard) {
+      return (
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-gray-800">{welcomeCard.title}</h3>
+          {welcomeCard.subtitle && <p className="text-orange-600 text-sm">{welcomeCard.subtitle}</p>}
+          {welcomeCard.content.map((paragraph: string, i: number) => (
+            <p key={i} className="text-gray-700 leading-relaxed text-base">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      )
+    }
+
     if (activeModal === "contribute") {
       return (
         <Card className="border-0 shadow-none">
@@ -560,6 +608,7 @@ export default function ContributorGuide() {
         </Card>
       )
     }
+
     if (activeModal === "rewards") {
       return (
         <div className="space-y-8">
@@ -612,26 +661,28 @@ export default function ContributorGuide() {
         </div>
       )
     }
+
     const topic = data.safety.find((t) => t.id === activeModal)
     if (!topic) return null
+
     if (activeModal === "data-safety") {
       return (
         <div className="space-y-6 max-h-[70vh] overflow-y-auto">
           <div className="space-y-4">
-            <p className="text-gray-700 text-base leading-relaxed">{topic.content.description}</p>
+            <p className="text-gray-700 text-base leading-relaxed">{topic.content?.commitment}</p>
             <Card className="animate-metallic-gradient border border-orange-200 rounded-2xl hover:scale-[1.01] hover:shadow-md transition-all duration-300">
               <CardContent className="p-4">
                 <h4 className="font-bold text-orange-800 mb-2">Our Privacy Commitment:</h4>
-                <p className="text-sm text-gray-700">{topic.content.commitment}</p>
+                <p className="text-sm text-gray-700">{topic.content?.commitment}</p>
               </CardContent>
             </Card>
           </div>
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-gray-800 border-b border-orange-200 pb-2">
-              {topic.content.termsAndConditions.title}
+              {topic.content?.termsAndConditions?.title}
             </h3>
             <div className="space-y-4">
-              {topic.content.termsAndConditions.sections.map((section, i) => (
+              {topic.content?.termsAndConditions?.sections.map((section, i) => (
                 <Card
                   key={i}
                   className="animate-metallic-gradient border border-orange-100 rounded-xl hover:scale-[1.01] hover:shadow-md transition-all duration-300"
@@ -646,10 +697,10 @@ export default function ContributorGuide() {
           </div>
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-gray-800 border-b border-orange-200 pb-2">
-              {topic.content.termsAndConditions.dataUsePolicy.title}
+              {topic.content?.termsAndConditions?.dataUsePolicy?.title}
             </h3>
             <div className="space-y-4">
-              {topic.content.termsAndConditions.dataUsePolicy.sections.map((section, i) => (
+              {topic.content?.termsAndConditions?.dataUsePolicy?.sections.map((section, i) => (
                 <Card
                   key={i}
                   className="animate-metallic-gradient border border-orange-100 rounded-xl hover:scale-[1.01] hover:shadow-md transition-all duration-300"
@@ -665,30 +716,31 @@ export default function ContributorGuide() {
           <Card className="animate-metallic-gradient border border-orange-100 rounded-xl hover:scale-[1.01] hover:shadow-md transition-all duration-300">
             <CardContent className="p-4">
               <h4 className="font-semibold text-gray-800 mb-2 text-sm">
-                {topic.content.termsAndConditions.jurisdiction.title}
+                {topic.content?.termsAndConditions?.jurisdiction?.title}
               </h4>
               <p className="text-xs text-gray-700 leading-relaxed">
-                {topic.content.termsAndConditions.jurisdiction.content}
+                {topic.content?.termsAndConditions?.jurisdiction?.content}
               </p>
             </CardContent>
           </Card>
           <Card className="animate-metallic-gradient border border-orange-100 rounded-xl hover:scale-[1.01] hover:shadow-md transition-all duration-300">
             <CardContent className="p-4">
               <h4 className="font-semibold text-gray-800 mb-2 text-sm">
-                {topic.content.termsAndConditions.grievanceOfficer.title}
+                {topic.content?.termsAndConditions?.grievanceOfficer?.title}
               </h4>
               <p className="text-xs text-gray-700 leading-relaxed">
-                {topic.content.termsAndConditions.grievanceOfficer.content}
+                {topic.content?.termsAndConditions?.grievanceOfficer?.content}
               </p>
             </CardContent>
           </Card>
         </div>
       )
     }
+
     if (activeModal === "content-usage") {
       return (
         <div className="space-y-4">
-          {topic.content.points?.map((point, i) => (
+          {topic.content?.points?.map((point, i) => (
             <div
               key={i}
               className="flex items-start gap-3 p-4 animate-metallic-gradient rounded-2xl hover:scale-[1.01] hover:shadow-md transition-all duration-300"
@@ -703,10 +755,11 @@ export default function ContributorGuide() {
         </div>
       )
     }
+
     if (activeModal === "community-conduct") {
       return (
         <div className="space-y-6">
-          <p className="text-gray-700">{topic.content.description}</p>
+          <p className="text-gray-700">{topic.content?.description}</p>
           <Card className="animate-metallic-gradient border border-green-200 rounded-2xl hover:scale-[1.01] hover:shadow-md transition-all duration-300">
             <CardHeader>
               <CardTitle className="text-lg text-green-800 flex items-center gap-2">
@@ -715,7 +768,7 @@ export default function ContributorGuide() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              {topic.content.expectedBehavior?.map((behavior, i) => (
+              {topic.content?.expectedBehavior?.map((behavior, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
                   <span className="text-sm">{behavior}</span>
@@ -745,28 +798,12 @@ export default function ContributorGuide() {
           />
         ))}
       </div>
+
       <div className="relative z-10">
-        {/* Header */}
-        <div className="bg-orange-50/70 backdrop-blur-md border-b border-orange-200/50 px-4 md:px-8 py-4 lg:py-6">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-800 mb-1 lg:mb-2">Bharat-EDU-LLM</h1>
-              <p className="text-gray-600 text-sm md:text-base lg:text-lg">Contributor Guide</p>
-            </div>
-            <Button
-              asChild
-              className="bg-orange-600 text-white hover:bg-orange-700 font-semibold px-4 lg:px-6 py-2 lg:py-3 rounded-full shadow-lg text-sm lg:text-base"
-            >
-              <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank">
-                Join Us <ExternalLink className="ml-2 h-3 w-3 lg:h-4 lg:w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
         <div className="flex">
           {/* Desktop Sidebar */}
-          <div className="hidden lg:flex w-20 xl:w-24 bg-orange-50/70 backdrop-blur-md border-r border-orange-200/50 flex-col items-center py-6 lg:py-8 space-y-4 lg:space-y-6 fixed h-full">
-            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+          <div className="hidden lg:flex fixed top-0 left-0 z-50 h-screen w-20 xl:w-24 bg-orange-50/70 backdrop-blur-md border-r border-orange-200/50 flex-col items-center py-6 lg:py-8 space-y-4 lg:space-y-6">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-orange-300">
               <BookOpen className="h-5 w-5 lg:h-6 lg:w-6 text-orange-600" />
             </div>
             <div className="flex flex-col space-y-3 lg:space-y-4">
@@ -776,54 +813,77 @@ export default function ContributorGuide() {
                     onClick={() => handleStepClick(i)}
                     className={`relative w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:scale-110 font-bold text-base lg:text-lg ${
                       i === currentStep
-                        ? step.color + " text-white shadow-xl"
-                        : i < currentStep
-                          ? "bg-white text-orange-600 border-2 border-orange-300 shadow-md"
-                          : "bg-white/50 text-orange-600 hover:bg-white/70"
+                        ? step.color + " text-white shadow-xl" // Active step: solid orange, white text
+                        : "bg-white text-orange-600 border-2 border-orange-300 shadow-md" // Inactive steps (both completed and future): white, orange text, orange border
                     }`}
                   >
-                    {i < currentStep ? <CheckCircle className="w-5 h-5 lg:w-6 lg:h-6" /> : <span>{i + 1}</span>}
+                    {i < currentStep ? <CheckCircle className="w-5 h-5 lg:w-6 lg:w-6" /> : <span>{i + 1}</span>}
                     {i === currentStep && (
+                      // Subtle glow for the active step
                       <div className="absolute -inset-1 rounded-full border-2 border-orange-300/50 animate-pulse" />
                     )}
                   </button>
                   {i < data.steps.length - 1 && (
                     <div
-                      className={`w-0.5 h-6 lg:h-8 mt-2 transition-all duration-300 ${i < currentStep ? "bg-orange-400/60" : "bg-orange-300/30"}`}
+                      className={`w-0.5 h-6 lg:h-8 mt-2 transition-all duration-300 bg-orange-300/60`} // Thinner, consistent orange line
                     />
                   )}
                 </div>
               ))}
             </div>
           </div>
-          {/* Main Content */}
+
+          {/* Main Content Area with Fixed Header */}
           <div className="flex-1 lg:ml-20 xl:ml-24">
-            {/* Desktop Scrollable View (all sections rendered) */}
-            <div className="hidden lg:block px-6 lg:px-8 py-6 lg:py-8 animate-metallic-gradient">
+            {/* Fixed Top Bar - increased height for better visibility */}
+            <div className="fixed top-0 z-20 w-full lg:w-[calc(100%-80px)] xl:w-[calc(100%-96px)] lg:left-20 xl:left-24 bg-orange-50/70 backdrop-blur-md border-b border-orange-200/50 px-4 md:px-8 py-0 lg:py-0">
+              <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                  <h1 className="text-xl md:text-2xl lg:text-4xl font-bold text-gray-800 mb-1 lg:mb-2">
+                    Bharat-EDU-LLM
+                  </h1>
+                  <p className="text-gray-600 text-sm md:text-base lg:text-lg">Contributor Guide</p>
+                </div>
+                <Button
+                  asChild
+                  className="bg-orange-600 text-white hover:bg-orange-700 font-semibold px-4 lg:px-6 py-2 lg:py-3 rounded-full shadow-lg text-sm lg:text-base"
+                >
+                  <Link href="https://forms.gle/jSydHxxUx7TaAaYAA" target="_blank">
+                    Join Us <ExternalLink className="ml-2 h-3 w-3 lg:h-4 lg:w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Desktop Scrollable View - increased top padding */}
+            <div className="hidden lg:block px-6 lg:px-8 py-6 lg:py-8 animate-metallic-gradient pt-[180px]">
               <div className="max-w-6xl mx-auto">
                 {data.steps.map((step, i) => (
                   <div
                     key={step.id}
                     ref={(el) => (sectionRefs.current[i] = el)}
-                    className="mb-12 min-h-[calc(100vh-100px)] flex flex-col justify-center" // Ensure each section takes up enough height
+                    className="mb-20 min-h-[calc(100vh-180px)] flex flex-col"
                   >
-                    <div className="mb-6 lg:mb-8">
-                      <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">{step.title}</h2>
-                      <p className="text-gray-600 text-base lg:text-lg">{step.subtitle}</p>
+                    {/* Section header with much better spacing */}
+                    <div className="mb-10 lg:mb-12 pt-8 lg:pt-12">
+                      <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-3 lg:mb-4">{step.title}</h2>
+                      <p className="text-gray-600 text-lg lg:text-xl">{step.subtitle}</p>
                     </div>
                     {renderSectionContent(i)}
                   </div>
                 ))}
               </div>
             </div>
-            {/* Mobile Scrollable View (all sections rendered) */}
-            <div className="lg:hidden px-4 py-6 animate-metallic-gradient space-y-12">
+
+            {/* Mobile Scrollable View - increased top padding */}
+            <div className="lg:hidden px-4 py-6 animate-metallic-gradient space-y-16 pt-[160px]">
               <div className="max-w-6xl mx-auto">
                 {data.steps.map((step, i) => (
-                  <div key={step.id} className="mb-12">
-                    <div className="mb-6">
-                      <h2 className="text-xl font-bold text-gray-800 mb-1">{step.title}</h2>
-                      <p className="text-gray-600 text-sm">{step.subtitle}</p>
+                  <div key={step.id} className="mb-16">
+                    {/* Section header with better spacing for mobile */}
+                    <div className="mb-10 pt-8">
+                      <h2 className="text-2xl font-bold text-gray-800 mb-3">{step.title}</h2>
+                      <p className="text-gray-600 text-base">{step.subtitle}</p>
                     </div>
                     {renderSectionContent(i)}
                   </div>
@@ -833,7 +893,8 @@ export default function ContributorGuide() {
           </div>
         </div>
       </div>
-      {/* Other Modals */}
+
+      {/* Modal remains the same */}
       {activeModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <Card className="bg-white max-w-5xl w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl animate-metallic-gradient">
@@ -843,7 +904,8 @@ export default function ContributorGuide() {
                   ? "What You Can Contribute"
                   : activeModal === "rewards"
                     ? "Rewards & Recognition"
-                    : data.safety.find((topic) => topic.id === activeModal)?.title}
+                    : data.safety.find((topic) => topic.id === activeModal)?.title ||
+                      data.welcome.find((card) => card.id === activeModal)?.title}
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => setActiveModal(null)} className="rounded-full">
                 <X className="h-4 w-4 lg:h-5 lg:w-5" />

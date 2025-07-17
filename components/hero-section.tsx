@@ -101,7 +101,7 @@ export function HeroSection() {
                 <Button
                   size="sm"
                   className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 text-xs rounded-full transition-all duration-300 transform hover:scale-105"
-                  onClick={() => router.push("/contributor-guide")}
+                  onClick={() => window.open("/contributor-guide")}
                 >
                   Contributor Guide
                 </Button>
