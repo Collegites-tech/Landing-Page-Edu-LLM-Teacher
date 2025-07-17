@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,111 +28,10 @@ export default function ContributorGuide() {
   const [currentStep, setCurrentStep] = useState(0)
   const [activeModal, setActiveModal] = useState<string | null>(null)
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null)
-  const [isScrolling, setIsScrolling] = useState(false)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const [isScrollingProgrammatically, setIsScrollingProgrammatically] = useState(false)
 
-  // Refs for scroll detection
-  const containerRef = useRef<HTMLDivElement>(null)
+  // Refs for each section to observe their visibility
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
-
-  // Improved scroll event listener for smoother step-wise progression
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerWidth < 1024 || isScrolling) return // Only apply on desktop and when not manually scrolling
-
-      const scrollY = window.scrollY
-      const windowHeight = window.innerHeight
-      const documentHeight = document.documentElement.scrollHeight
-      const scrollableHeight = documentHeight - windowHeight
-
-      // Calculate scroll progress
-      const scrollProgress = scrollY / scrollableHeight
-
-      // Check scroll delta to prevent micro-movements from triggering changes
-      const scrollDelta = Math.abs(scrollY - lastScrollY)
-      if (scrollDelta < 30) return // Minimum scroll distance to trigger step change
-
-      // More gradual thresholds for smoother step transitions
-      let newStep = currentStep
-
-      // Forward scrolling (down)
-      if (scrollY > lastScrollY) {
-        if (scrollProgress > 0.2 && currentStep === 0) {
-          newStep = 1
-        } else if (scrollProgress > 0.45 && currentStep === 1) {
-          newStep = 2
-        } else if (scrollProgress > 0.7 && currentStep === 2) {
-          newStep = 3
-        }
-      }
-      // Backward scrolling (up)
-      else if (scrollY < lastScrollY) {
-        if (scrollProgress < 0.65 && currentStep === 3) {
-          newStep = 2
-        } else if (scrollProgress < 0.4 && currentStep === 2) {
-          newStep = 1
-        } else if (scrollProgress < 0.15 && currentStep === 1) {
-          newStep = 0
-        }
-      }
-
-      // Only update if step has changed
-      if (newStep !== currentStep) {
-        setCurrentStep(newStep)
-      }
-
-      setLastScrollY(scrollY)
-    }
-
-    // Reduced debounce for smoother response
-    let scrollTimeout: NodeJS.Timeout
-    const debouncedScroll = () => {
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(handleScroll, 5) // Reduced from 100ms to 50ms
-    }
-
-    window.addEventListener("scroll", debouncedScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", debouncedScroll)
-      clearTimeout(scrollTimeout)
-    }
-  }, [currentStep, isScrolling, lastScrollY])
-
-  // Improved manual step clicking with better scroll sync
-  const handleStepClick = (stepIndex: number) => {
-    setIsScrolling(true)
-    setCurrentStep(stepIndex)
-
-    // Calculate target scroll position for the step
-    const windowHeight = window.innerHeight
-    const totalScrollHeight = document.documentElement.scrollHeight - windowHeight
-
-    // More precise scroll positioning
-    let targetScroll = 0
-    if (stepIndex === 1) {
-      targetScroll = totalScrollHeight * 0.25
-    } else if (stepIndex === 2) {
-      targetScroll = totalScrollHeight * 0.5
-    } else if (stepIndex === 3) {
-      targetScroll = totalScrollHeight * 0.75
-    }
-
-    // Smooth scroll to the calculated position
-    window.scrollTo({
-      top: targetScroll,
-      behavior: "smooth",
-    })
-
-    // Update lastScrollY immediately to prevent conflicts
-    setLastScrollY(targetScroll)
-
-    // Shorter timeout for better responsiveness
-    setTimeout(() => {
-      setIsScrolling(false)
-      // Resync scroll position after animation
-      setLastScrollY(window.scrollY)
-    }, 800) // Reduced from 1500ms to 800ms
-  }
 
   const data = {
     steps: [
@@ -471,11 +370,12 @@ export default function ContributorGuide() {
     </Card>
   )
 
-  const renderSection = (stepIndex: number) => {
+  // This function now returns the content for a specific section, to be rendered multiple times
+  const renderSectionContent = (stepIndex: number) => {
     switch (stepIndex) {
       case 0:
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8" ref={(el) => (sectionRefs.current[0] = el)}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             {data.welcome.map((card, i) => (
               <Card3D key={i} item={card} />
             ))}
@@ -483,7 +383,7 @@ export default function ContributorGuide() {
         )
       case 1:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6" ref={(el) => (sectionRefs.current[1] = el)}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {data.getStarted.map((step, i) => (
               <Card3D key={i} item={step} />
             ))}
@@ -491,7 +391,7 @@ export default function ContributorGuide() {
         )
       case 2:
         return (
-          <div className="space-y-6 lg:space-y-8" ref={(el) => (sectionRefs.current[2] = el)}>
+          <div className="space-y-6 lg:space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <Card3D
                 item={{
@@ -541,7 +441,7 @@ export default function ContributorGuide() {
         )
       case 3:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" ref={(el) => (sectionRefs.current[3] = el)}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {data.contact.map((option, i) => (
               <Card3D key={i} item={option} />
             ))}
@@ -551,6 +451,84 @@ export default function ContributorGuide() {
         return null
     }
   }
+
+  // Intersection Observer to detect current section in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isScrollingProgrammatically) {
+            const index = sectionRefs.current.indexOf(entry.target as HTMLDivElement)
+            if (index !== -1 && index !== currentStep) {
+              setCurrentStep(index)
+            }
+          }
+        })
+      },
+      {
+        root: null, // viewport
+        rootMargin: "0px",
+        threshold: 0.5, // Trigger when 50% of the section is visible
+      },
+    )
+
+    // Observe all section elements
+    sectionRefs.current.forEach((ref) => {
+      if (ref) {
+        observer.observe(ref)
+      }
+    })
+
+    return () => {
+      // Disconnect observer on component unmount
+      sectionRefs.current.forEach((ref) => {
+        if (ref) {
+          observer.unobserve(ref)
+        }
+      })
+      observer.disconnect()
+    }
+  }, [isScrollingProgrammatically, currentStep]) // Re-run if programmatic scrolling state changes
+
+  // Smooth scroll to the target step
+  const handleStepClick = useCallback((stepIndex: number) => {
+    if (sectionRefs.current[stepIndex]) {
+      setIsScrollingProgrammatically(true)
+      sectionRefs.current[stepIndex]?.scrollIntoView({ behavior: "smooth", block: "start" })
+
+      // Set a timeout to reset the flag after the scroll animation completes
+      // Adjust timeout duration based on 'smooth' scroll behavior
+      setTimeout(() => {
+        setIsScrollingProgrammatically(false)
+      }, 1000) // Assuming scroll takes about 1 second
+    }
+    setCurrentStep(stepIndex) // Update current step immediately for UI feedback
+  }, [])
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (window.innerWidth < 1024) return // Only for desktop
+
+      let newStep = currentStep
+      if (event.key === "ArrowDown" || event.key === " ") {
+        newStep = Math.min(currentStep + 1, data.steps.length - 1)
+        event.preventDefault() // Prevent native scroll for space/arrow keys
+      } else if (event.key === "ArrowUp") {
+        newStep = Math.max(currentStep - 1, 0)
+        event.preventDefault() // Prevent native scroll for arrow keys
+      }
+
+      if (newStep !== currentStep) {
+        handleStepClick(newStep)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [currentStep, handleStepClick, data.steps.length])
 
   const ModalContent = () => {
     if (activeModal === "contribute") {
@@ -751,10 +729,7 @@ export default function ContributorGuide() {
   }
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br from-white via-orange-50 to-orange-100 relative overflow-hidden"
-      ref={containerRef}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-white via-orange-50 to-orange-100 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden">
         {[
@@ -823,17 +798,25 @@ export default function ContributorGuide() {
           </div>
           {/* Main Content */}
           <div className="flex-1 lg:ml-20 xl:ml-24">
-            {/* Desktop Step View */}
+            {/* Desktop Scrollable View (all sections rendered) */}
             <div className="hidden lg:block px-6 lg:px-8 py-6 lg:py-8 animate-metallic-gradient">
               <div className="max-w-6xl mx-auto">
-                <div className="mb-6 lg:mb-8">
-                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">{data.steps[currentStep].title}</h2>
-                  <p className="text-gray-600 text-base lg:text-lg">{data.steps[currentStep].subtitle}</p>
-                </div>
-                <div className="min-h-[400px] lg:min-h-[500px]">{renderSection(currentStep)}</div>
+                {data.steps.map((step, i) => (
+                  <div
+                    key={step.id}
+                    ref={(el) => (sectionRefs.current[i] = el)}
+                    className="mb-12 min-h-[calc(100vh-100px)] flex flex-col justify-center" // Ensure each section takes up enough height
+                  >
+                    <div className="mb-6 lg:mb-8">
+                      <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">{step.title}</h2>
+                      <p className="text-gray-600 text-base lg:text-lg">{step.subtitle}</p>
+                    </div>
+                    {renderSectionContent(i)}
+                  </div>
+                ))}
               </div>
             </div>
-            {/* Mobile Scrollable View */}
+            {/* Mobile Scrollable View (all sections rendered) */}
             <div className="lg:hidden px-4 py-6 animate-metallic-gradient space-y-12">
               <div className="max-w-6xl mx-auto">
                 {data.steps.map((step, i) => (
@@ -842,7 +825,7 @@ export default function ContributorGuide() {
                       <h2 className="text-xl font-bold text-gray-800 mb-1">{step.title}</h2>
                       <p className="text-gray-600 text-sm">{step.subtitle}</p>
                     </div>
-                    {renderSection(i)}
+                    {renderSectionContent(i)}
                   </div>
                 ))}
               </div>
