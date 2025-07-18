@@ -370,7 +370,7 @@ export default function ContributorGuide() {
               {/* Moved subtitle here for step cards */}
               <p className="text-gray-700 font-medium mb-3 text-sm">{item.desc}</p>
               {item.time && (
-                <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mb-3">
+                <div className="flex items-left justify-left gap-2 text-xs text-gray-600 mb-3">
                   <Clock className="h-3 w-3" />
                   <span>{item.time}</span>
                 </div>
